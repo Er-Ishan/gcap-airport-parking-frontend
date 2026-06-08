@@ -1,12 +1,12 @@
-import BlogDetailsArea from "./BlogDetailsArea"
+﻿import BlogDetailsArea from "./BlogDetailsArea"
 import FooterFive from "../../../layouts/footers/FooterFive"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
 
 const BlogDetails = () => {
   return (
     <>
-      <HeaderThree />
+      <HeaderOne />
       <main>
         <BreadCrumb title="Blog Details" sub_title="Exploring The Green Spac Realar Residence Area Harmony" />
         <BlogDetailsArea />
@@ -17,3 +17,4 @@ const BlogDetails = () => {
 }
 
 export default BlogDetails
+

@@ -1,13 +1,13 @@
-import FaqArea from "./FaqArea"
+﻿import FaqArea from "./FaqArea"
 import Cta from "../pricing/Cta"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
 import FooterThree from "../../../layouts/footers/FooterThree"
 
 const Faq = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <BreadCrumb title="Frequently Asked Question" sub_title="Faq’s" />
             <FaqArea />
@@ -19,3 +19,4 @@ const Faq = () => {
 }
 
 export default Faq
+

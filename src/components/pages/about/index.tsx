@@ -1,5 +1,5 @@
-import FooterSix from "../../../layouts/footers/FooterSix"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+﻿import FooterSix from "../../../layouts/footers/FooterSix"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
 import AboutArea from "./AboutArea"
 import Choose from "./Choose"
@@ -8,7 +8,7 @@ import Cta from "./Cta"
 const About = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <BreadCrumb title="About Us" sub_title="About Us" />
             <AboutArea />
@@ -21,3 +21,4 @@ const About = () => {
 }
 
 export default About
+

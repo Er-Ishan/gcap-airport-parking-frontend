@@ -1,14 +1,14 @@
-import BreadCrumb from "./BreadCrumb"
+﻿import BreadCrumb from "./BreadCrumb"
 import TourDetailsArea from "./TourDetailsArea"
 import TourAboutDetails from "./TourAboutDetails"
 import Listing from "./Listing"
-import HeaderSix from "../../../layouts/headers/HeaderSix"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import FooterFive from "../../../layouts/footers/FooterFive"
 
 const FeatureDetailsTwo = () => {
    return (
       <>
-         <HeaderSix />
+         <HeaderOne />
          <main>
             <BreadCrumb />
             <TourDetailsArea />
@@ -21,3 +21,4 @@ const FeatureDetailsTwo = () => {
 }
 
 export default FeatureDetailsTwo
+

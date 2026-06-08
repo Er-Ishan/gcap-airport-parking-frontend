@@ -27,7 +27,7 @@ const InnerHeader = () => {
                         <div className="col-lg-8 col-5">
                            <div className="tgmenu__wrap d-flex align-items-center">
                               <div className="logo flex-auto">
-                                 <Link to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+                                 <Link to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" style={{ height: "50px", width: "auto" }} /></Link>
                               </div>
                               <nav className="tgmenu__nav  ml-90 d-none d-xl-block">
                                  <div className="tgmenu__navbar-wrap tgmenu__main-menu tgmenu__navbar-wrap-4 d-none d-xl-flex">

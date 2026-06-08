@@ -1,4 +1,4 @@
-import About from "./About"
+﻿import About from "./About"
 import Banner from "./Banner"
 import Blog from "./Blog"
 import Choose from "./Choose"
@@ -7,7 +7,7 @@ import CtaTwo from "./CtaTwo"
 import Location from "./Location"
 import Testimonial from "./Testimonial"
 import Cta from "../home-one/Cta"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BannerFormThree from "../../common/banner-form/BannerFormThree"
 import FooterThree from "../../../layouts/footers/FooterThree"
 import Listing from"./Listing";
@@ -15,7 +15,7 @@ import Listing from"./Listing";
 const HomeThree = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <Banner />
             <BannerFormThree />
@@ -35,3 +35,4 @@ const HomeThree = () => {
 }
 
 export default HomeThree
+

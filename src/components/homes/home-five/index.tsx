@@ -1,4 +1,4 @@
-import Hero from "./Hero"
+﻿import Hero from "./Hero"
 import Choose from "./Choose"
 import Counter from "./Counter"
 import Ads from "./Ads"
@@ -9,12 +9,12 @@ import Listing from "./Listing"
 import Location from "./Location"
 import CtaThree from "./CtaThree"
 import FooterFive from "../../../layouts/footers/FooterFive"
-import HeaderFive from "../../../layouts/headers/HeaderFive"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 
 const HomeFive = () => {
    return (
       <>
-         <HeaderFive />
+         <HeaderOne />
          <Hero />
          <Location />
          <CtaThree />
@@ -31,3 +31,4 @@ const HomeFive = () => {
 }
 
 export default HomeFive
+

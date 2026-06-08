@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 const FooterFive = () => {
    return (
       <footer>
-         <div className="tg-footer-area pt-130 include-bg" style={{ backgroundImage: `url(/assets/img/footer/footer.jpg)` }}>
+         <div className="tg-footer-area pt-20 include-bg" style={{ backgroundImage: `url(/assets/img/footer/footer.jpg)` }}>
             <div className="container">
                <div className="tg-footer-top pb-40">
                   <div className="row">
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div className="tg-footer-widget mb-40">
                            <div className="tg-footer-logo mb-20">
-                              <Link to="/"><img src="/assets/img/logo/logo-white.png" alt="" /></Link>
+                              <Link to="/"><img src="/assets/img/logo/logo-white.png" alt="" style={{ height: "80px", width: "auto" }} /></Link>
                            </div>
                            <p className="mb-20">Pharetra maecenas felis vestibulum convallis mollis nullam congue sit.d rivers of Finland Quebec.</p>
                            <div className="tg-footer-form mb-30">
@@ -84,13 +84,13 @@ const FooterFive = () => {
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div className="tg-footer-widget tg-footer-link mb-40">
                            <h3 className="tg-footer-widget-title mb-25">Utility Pages</h3>
-                           <ul>
+                           {/* <ul>
                               <li><Link to="#">Style Guide</Link></li>
                               <li><Link to="#">Password Protected</Link></li>
                               <li><Link to="#">404 Error</Link></li>
                               <li><Link to="#">Changelog</Link></li>
                               <li><Link to="#">License</Link></li>
-                           </ul>
+                           </ul> */}
                         </div>
                      </div>
                   </div>

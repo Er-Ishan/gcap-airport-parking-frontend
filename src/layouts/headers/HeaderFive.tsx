@@ -26,7 +26,7 @@ const HeaderFive = () => {
                      <div className="col-lg-3 col-5">
                         <div className="logo">
                            <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="Logo" /></Link>
-                           <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+                           <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" style={{ height: "50px", width: "auto" }} /></Link>
                         </div>
                      </div>
                      <div className="col-lg-9 col-7">

@@ -25,7 +25,7 @@ const HeaderSeven = () => {
                         <div className="tgmenu__wrap d-flex align-items-center justify-content-between">
                            <div className="logo">
                               <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="Logo" /></Link>
-                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" style={{ height: "50px", width: "auto" }} /></Link>
                            </div>
                            <nav className="tgmenu__nav tgmenu-1-space ml-180">
                               <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">

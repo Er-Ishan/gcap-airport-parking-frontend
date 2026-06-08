@@ -1,13 +1,13 @@
-import Breadcrumb from "./Breadcrumb"
+﻿import Breadcrumb from "./Breadcrumb"
 import FeatureDetailsArea from "./FeatureDetailsArea"
 import FeatureAboutArea from "./FeatureAboutArea"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import FooterSix from "../../../layouts/footers/FooterSix"
 
 const FeatureDetailsOne = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <Breadcrumb />
             <FeatureDetailsArea />
@@ -19,3 +19,4 @@ const FeatureDetailsOne = () => {
 }
 
 export default FeatureDetailsOne
+

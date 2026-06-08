@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Offcanvas from "./Menu/Offcanvas";
 import Sidebar from "./Menu/Sidebar";
-import HeaderCart from "./Menu/HeaderCart";
-import TotalCart from "./Menu/TotalCart";
 import UseSticky from "../../hooks/UseSticky";
 import PhoneIcon from "../../svg/PhoneIcon";
-import CartIcon from "../../svg/CartIcon";
 import UserIcon from "../../svg/UserIcon";
 
 const HeaderThree = () => {
@@ -25,8 +22,8 @@ const HeaderThree = () => {
                      <div className="col-lg-7 col-5">
                         <div className="tgmenu__wrap d-flex align-items-center">
                            <div className="logo">
-                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="Logo" /></Link>
-                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="GCAP Airport Parking" /></Link>
+                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" style={{ height: "50px", width: "auto" }} /></Link>
                            </div>
                            <nav className="tgmenu__nav tgmenu-1-space ml-180">
                               <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
@@ -41,31 +38,18 @@ const HeaderThree = () => {
                               <span className="tg-header-contact-icon mr-5 d-none d-xl-block">
                                  <PhoneIcon />
                               </span>
-                              <div className="tg-header-contact-number d-none d-xl-block">
+                              <div className="tg-header-contact-number d-none d-xl-block" style={{ whiteSpace: "nowrap" }}>
                                  <span>Call Us:</span>
-                                 <Link to="tel:+123595966">+123 5959 66</Link>
+                                 <Link to="tel:+441234567890">+44 1234 567890</Link>
                               </div>
-                           </div>
-                           <div className="tg-header-cart p-relative ml-20 pl-20 d-none d-xl-block">
-                              <span className="tg-header-border"></span>
-                              <button className="cart-button">
-                                 <span>
-                                    <CartIcon />
-                                 </span>
-                                 <span className="tg-header-cart-count"><TotalCart /></span>
-                              </button>
-                              <HeaderCart />
                            </div>
                            <div className="tg-header-btn ml-20 d-none d-sm-block">
                               <Link className="tg-btn-header" to="/login">
-                                 <span>
-                                    <UserIcon />
-                                 </span>
+                                 <span><UserIcon /></span>
                                  Login
                               </Link>
                            </div>
                            <div className="tg-header-menu-bar lh-1 p-relative ml-20 pl-20">
-                              <span className="tg-header-border d-none d-xl-block"></span>
                               <button onClick={() => setSidebar(true)} style={{ cursor: "pointer" }} className="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
                                  <span></span>
                                  <span></span>
@@ -83,8 +67,8 @@ const HeaderThree = () => {
                </div>
             </div>
          </header>
-         <Offcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
          <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+         <Offcanvas offCanvas={offCanvas} setOffCanvas={setOffCanvas} />
       </>
    )
 }

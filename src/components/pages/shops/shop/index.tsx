@@ -1,5 +1,5 @@
-import FooterSix from '../../../../layouts/footers/FooterSix'
-import HeaderThree from '../../../../layouts/headers/HeaderThree'
+﻿import FooterSix from '../../../../layouts/footers/FooterSix'
+import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from '../../../common/BreadCrumb'
 import ShopArea from './ShopArea'
 
@@ -7,7 +7,7 @@ import ShopArea from './ShopArea'
 const Shop = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <BreadCrumb title="Shop Page" sub_title="Shop Archive Page" />
             <ShopArea />
@@ -18,3 +18,4 @@ const Shop = () => {
 }
 
 export default Shop
+

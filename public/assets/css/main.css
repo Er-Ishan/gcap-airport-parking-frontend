@@ -3478,6 +3478,30 @@ textarea {
     padding-bottom: 120px;
   }
 }
+@media (max-width: 768px) {
+  .tg-hero-tu-wrapper .tg-hero-content {
+    padding-top: 140px;
+    padding-bottom: 80px;
+  }
+  .tg-hero-tu-wrapper .tg-hero-title {
+    font-size: 38px;
+  }
+  .tg-hero-tu-title {
+    font-size: 28px;
+  }
+}
+@media (max-width: 480px) {
+  .tg-hero-tu-wrapper .tg-hero-content {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  .tg-hero-tu-wrapper .tg-hero-title {
+    font-size: 28px;
+  }
+  .tg-hero-tu-title {
+    font-size: 20px;
+  }
+}
 @media (max-width: 575px) {
   .tg-hero-tu-wrapper .tg-hero-content {
     padding-top: 100px;

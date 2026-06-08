@@ -1,4 +1,4 @@
-import Hero from "./Hero"
+﻿import Hero from "./Hero"
 import Brand from "./Brand"
 import Destination from "./Destination"
 import Listing from "./Listing"
@@ -8,14 +8,14 @@ import Testimonial from "./Testimonial"
 import Blog from "./Blog"
 import Cta from "./Cta"
 import CtaTwo from "../home-one/Cta"
-import HeaderFour from "../../../layouts/headers/HeaderFour"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BannerFormFour from "../../common/banner-form/BannerFormFour"
 import FooterThree from "../../../layouts/footers/FooterThree"
 
 const HomeFour = () => {
   return (
     <>
-      <HeaderFour />
+      <HeaderOne />
       <main>
         <Hero />
         <BannerFormFour />
@@ -35,3 +35,4 @@ const HomeFour = () => {
 }
 
 export default HomeFour
+

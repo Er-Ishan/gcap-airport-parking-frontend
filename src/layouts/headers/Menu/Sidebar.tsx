@@ -13,7 +13,7 @@ const Sidebar = ({ sidebar, setSidebar }: SidebarProps) => {
                <button onClick={() => setSidebar(false)}><i className="fa-sharp fa-regular fa-xmark"></i></button>
             </div>
             <div className="offCanvas__logo mb-30">
-               <Link to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+               <Link to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" style={{ height: "50px", width: "auto" }} /></Link>
             </div>
             <div className="offCanvas__side-info mb-30">
                <div className="contact-list mb-30">

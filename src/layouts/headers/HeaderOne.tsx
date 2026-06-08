@@ -4,8 +4,8 @@ import { useState } from "react";
 import Offcanvas from "./Menu/Offcanvas";
 import Sidebar from "./Menu/Sidebar";
 import UseSticky from "../../hooks/UseSticky";
-import PhoneIcon from "../../svg/PhoneIcon";
-import UserIcon from "../../svg/UserIcon";
+// import PhoneIcon from "../../svg/PhoneIcon";
+// import UserIcon from "../../svg/UserIcon";
 
 const HeaderOne = () => {
 
@@ -21,15 +21,10 @@ const HeaderOne = () => {
                   <div className="row align-items-center">
                      <div className="col-xxl-9 col-xl-8 col-lg-8 col-5">
                         <div className="tgmenu__wrap d-flex align-items-center">
-                           <div className="logo mr-25">
-                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="Logo" /></Link>
-                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="Logo" /></Link>
+                           <div className="logo mr-10">
+                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="GCAP Airport Parking" style={{ height: "80px", width: "auto" }}/></Link>
+                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" style={{ height: "80px", width: "auto" }} /></Link>
                            </div>
-                           <button onClick={() => setSidebar(true)} style={{ cursor: "pointer" }} className="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                           </button>
                            <nav className="tgmenu__nav tgmenu-1-space ml-190">
                               <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
                                  <NavMenu />
@@ -38,26 +33,31 @@ const HeaderOne = () => {
                         </div>
                      </div>
                      <div className="col-xxl-3 col-xl-4 col-lg-4 col-7">
-                        <div className="tg-menu-right-action d-flex align-items-center justify-content-end">
-                           {/* <div className="tg-header-contact-info d-flex align-items-center">
-                              <span className="tg-header-contact-icon mr-10 d-none d-xl-block">
+                        <div className="tg-menu-right-action d-flex align-items-center justify-content-end" style={{ gap: "0" }}>
+                           {/* <div className="tg-header-contact-info d-flex align-items-center d-none d-xl-flex">
+                              <span className="tg-header-contact-icon mr-10">
                                  <PhoneIcon />
                               </span>
-                              <div className="tg-header-contact-number d-none d-xl-block">
+                              <div className="tg-header-contact-number" style={{ whiteSpace: "nowrap" }}>
                                  <span>Call Us:</span>
-                                 <Link to="tel:+123595966">+123 5959 66</Link>
+                                 <Link to="tel:+441234567890">+44 1234 567890</Link>
                               </div>
                            </div> */}
-                           {/* <div className="tg-header-btn ml-20 d-none d-sm-block">
+                           {/* <div className="tg-header-btn ml-20 pl-20 p-relative d-none d-xl-block">
+                              <span className="tg-header-border"></span>
                               <Link className="tg-btn-header" to="/login">
-                                 <span>
-                                    <UserIcon />
-                                 </span>
+                                 <span><UserIcon /></span>
                                  Login
                               </Link>
                            </div> */}
-                           <div className="tg-header-menu-bar p-relative">
-                              <button onClick={() => setOffCanvas(true)} style={{ cursor: "pointer" }} className="tgmenu-offcanvas-open-btn mobile-nav-toggler d-block d-xl-none ml-10">
+                           <div className="tg-header-menu-bar lh-1 p-relative ml-20 pl-20">
+                              {/* <span className="tg-header-border d-none d-xl-block"></span> */}
+                              <button onClick={() => setSidebar(true)} style={{ cursor: "pointer" }} className="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
+                                 <span></span>
+                                 <span></span>
+                                 <span></span>
+                              </button>
+                              <button onClick={() => setOffCanvas(true)} style={{ cursor: "pointer" }} className="tgmenu-offcanvas-open-btn mobile-nav-toggler d-block d-xl-none">
                                  <span></span>
                                  <span></span>
                                  <span></span>

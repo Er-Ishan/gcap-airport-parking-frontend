@@ -1,12 +1,12 @@
-import FeatureArea from "./FeatureArea"
+﻿import FeatureArea from "./FeatureArea"
 import BreadCrumb from "./BreadCrumb"
-import HeaderThree from "../../../layouts/headers/HeaderThree"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import FooterSix from "../../../layouts/footers/FooterSix"
 
 const FeatureThree = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <BreadCrumb />
             <FeatureArea />
@@ -17,3 +17,4 @@ const FeatureThree = () => {
 }
 
 export default FeatureThree
+

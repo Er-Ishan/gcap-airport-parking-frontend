@@ -1,12 +1,12 @@
-import FooterSix from "../../../../layouts/footers/FooterSix"
-import HeaderThree from "../../../../layouts/headers/HeaderThree"
+﻿import FooterSix from "../../../../layouts/footers/FooterSix"
+import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../../common/BreadCrumb"
 import TeamDetailsArea from "./TeamDetailsArea"
 
 const TeamDetails = () => {
    return (
       <>
-         <HeaderThree />
+         <HeaderOne />
          <main>
             <BreadCrumb title="Esther Howard" sub_title="Esther Howard" />
             <TeamDetailsArea />
@@ -17,3 +17,4 @@ const TeamDetails = () => {
 }
 
 export default TeamDetails
+

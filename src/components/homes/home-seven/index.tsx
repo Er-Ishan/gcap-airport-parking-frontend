@@ -1,4 +1,4 @@
-import Banner from "./Banner"
+﻿import Banner from "./Banner"
 import FoodArea from "./FoodArea"
 import Cta from "./Cta"
 import Counter from "./Counter"
@@ -9,13 +9,13 @@ import Brand from "./Brand"
 import Blog from "../home-three/Blog"
 import Listing from "./Listing"
 import CtaTwo from "../home-one/Cta"
-import HeaderSeven from "../../../layouts/headers/HeaderSeven"
+import HeaderOne from "../../../layouts/headers/HeaderOne"
 import FooterFour from "../../../layouts/footers/FooterFour"
 
 const HomeSeven = () => {
    return (
       <>
-         <HeaderSeven />
+         <HeaderOne />
          <main>
             <Banner />
             <FoodArea />
@@ -35,3 +35,4 @@ const HomeSeven = () => {
 }
 
 export default HomeSeven
+

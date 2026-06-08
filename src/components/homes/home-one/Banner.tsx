@@ -11,7 +11,7 @@ const Banner = () => {
                         <h2 className="tg-hero-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".5s">Compare Airport Parking</h2>
                         <h3 className="tg-hero-tu-title wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".7s">Prices Easily</h3>
                      </div>
-                     <div className="tg-booking-form-item tg-booking-tu-wrapper mt-15">
+                     <div className="mt-15">
                         <BannerFormOne />
                      </div>
                   </div>

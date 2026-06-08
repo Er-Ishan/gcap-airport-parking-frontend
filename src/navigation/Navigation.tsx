@@ -28,6 +28,10 @@ import BlogOneMain from '../pages/BlogOneMain';
 import BlogTwoMain from '../pages/BlogTwoMain';
 import BlogDetailsMain from '../pages/BlogDetailsMain';
 import ContactMain from '../pages/ContactMain';
+import PricingQuotesMain from '../pages/PricingQuotesMain';
+import BookingFormMain from '../pages/BookingFormMain';
+import BookingConfirmationMain from '../pages/BookingConfirmationMain';
+import PaymentMain from '../pages/PaymentMain';
 import ErrorMain from '../pages/ErrorMain';
 
 const AppNavigation = () => {
@@ -63,6 +67,10 @@ const AppNavigation = () => {
         <Route path="/blog-standard" element={<BlogTwoMain />} />
         <Route path="/blog-details" element={<BlogDetailsMain />} />
         <Route path="/contact" element={<ContactMain />} />
+        <Route path="/pricing-quotes" element={<PricingQuotesMain />} />
+        <Route path="/booking-form" element={<BookingFormMain />} />
+        <Route path="/booking-confirmation" element={<BookingConfirmationMain />} />
+        <Route path="/payment" element={<PaymentMain />} />
         <Route path="*" element={<ErrorMain />} />
       </Routes>
     </Router>

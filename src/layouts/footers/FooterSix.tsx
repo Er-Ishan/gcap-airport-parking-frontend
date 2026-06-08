@@ -10,7 +10,7 @@ const FooterSix = () => {
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div className="tg-footer-widget mb-40">
                            <div className="tg-footer-logo mb-20">
-                              <Link to="/"><img src="/assets/img/logo/logo-white.png" alt="" /></Link>
+                              <Link to="/"><img src="/assets/img/logo/logo-white.png" alt="" style={{ height: "80px", width: "auto" }}/></Link>
                            </div>
                            <p className="mb-20">Pharetra maecenas felis vestibulum convallis mollis nullam congue sit.d rivers of Finland Quebec.</p>
                            <div className="tg-footer-form mb-30">
@@ -35,13 +35,13 @@ const FooterSix = () => {
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                         <div className="tg-footer-widget tg-footer-link ml-80 mb-40">
                            <h3 className="tg-footer-widget-title mb-25">Quick Links</h3>
-                           <ul>
+                           {/* <ul>
                               <li><Link to="/">Home</Link></li>
                               <li><Link to="/about">About Us</Link></li>
                               <li><Link to="#">Services</Link></li>
                               <li><Link to="#">Tour Guide</Link></li>
                               <li><Link to="/contact"> Contact Us</Link></li>
-                           </ul>
+                           </ul> */}
                         </div>
                      </div>
                      <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
