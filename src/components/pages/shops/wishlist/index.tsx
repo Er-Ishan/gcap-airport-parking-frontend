@@ -1,4 +1,4 @@
-﻿import FooterSix from "../../../../layouts/footers/FooterSix"
+﻿import FooterTwo from "../../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../../common/BreadCrumb"
 import WishlistArea from "./WishlistArea"
@@ -11,7 +11,7 @@ const Wishlist = () => {
         <BreadCrumb title="Wishlist Page" sub_title="Wishlist" />
         <WishlistArea />
       </main>
-      <FooterSix />
+      <FooterTwo />
     </>
   )
 }

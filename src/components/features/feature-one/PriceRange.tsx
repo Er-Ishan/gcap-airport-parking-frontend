@@ -27,7 +27,7 @@ const PriceRange = ({ STEP, MIN, MAX, values, handleChanges }: IProps) => {
                      borderRadius: "10px",
                      background: getTrackBackground({
                         values: values,
-                        colors: ["#F0E9FF", "#560ce3", "#F0E9FF"],
+                        colors: ["#e6eef5", "#67a71e", "#e6eef5"],
                         min: MIN,
                         max: MAX
                      }),
@@ -45,7 +45,7 @@ const PriceRange = ({ STEP, MIN, MAX, values, handleChanges }: IProps) => {
                      ...props.style,
                      height: '20px',
                      width: '20px',
-                     backgroundColor: "#560ce3",
+                     backgroundColor: "#67a71e",
                      outline: "none",
                      borderRadius: "50px",
                      border: "6px solid #ffffff",

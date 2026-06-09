@@ -4,6 +4,22 @@
     	17. footer
 ===============================*/
 
+/* Base footer background — navy primary */
+.tg-footer-area {
+    background: var(--tg-theme-primary);
+}
+
+/* FooterTwo uses a background image overlay */
+.tg-footer-su-2-wrapper.include-bg {
+    background-color: var(--tg-theme-primary);
+    background-blend-mode: multiply;
+}
+
+/* FooterOne solid navy (overrides gradient from any old rule) */
+.tg-footer-one-bg {
+    background: var(--tg-theme-primary) !important;
+}
+
 .tg-footer{
     &-widget{
         @media #{$md,$sm,$xs} {
@@ -12,7 +28,7 @@
         & p{
             line-height: 24px;
             text-transform: capitalize;
-            color: #acadb5;
+            color: rgba(255,255,255,0.65);
             font-size: 15px;
         }
         &-title{
@@ -32,11 +48,11 @@
             & li{
                 & a{
                     text-transform: capitalize;
-                    color: #acadb5;
+                    color: rgba(255,255,255,0.65);
                     display: inline-block;
                     padding: 6px 0px;
                     &:hover{
-                        color: var(--tg-common-white);
+                        color: var(--tg-theme-secondary);
                     }
                 }
             }
@@ -50,13 +66,14 @@
         & ul{
             & li{
                 text-transform: capitalize;
-                color: #acadb5;
+                color: rgba(255,255,255,0.65);
                 display: inline-block;
                 font-weight: 500;
                 padding: 10px 0px;
                 & a{
+                    color: rgba(255,255,255,0.65);
                     &:hover{
-                        color: var(--tg-common-white);
+                        color: var(--tg-theme-secondary);
                     }
                 }
             }
@@ -67,24 +84,32 @@
         &-btn{
             width: 55px;
             height: 45px;
-            background: var(--tg-theme-primary);
+            background: var(--tg-theme-secondary);
             border-radius: 0px 4px 4px 0px;
             position: absolute;
             top: 0;
             right: 0;
+            &:hover {
+                background: #4e8515;
+            }
         }
         & input{
             border-radius: 5px;
             height: 45px;
             width: 100%;
-            background: var(--tg-common-white);
+            background: rgba(255,255,255,0.1);
             font-size: 15px;
-            color: var(--tg-grey-1);
+            color: var(--tg-common-white);
             padding: 10px 50px 10px 16px;
             box-shadow: none;
-            border: 1px solid transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            &::placeholder {
+                color: rgba(255,255,255,0.5);
+            }
             &:focus{
-                border-color: var(--tg-theme-primary);
+                border-color: var(--tg-theme-secondary);
+                outline: none;
+                background: rgba(255,255,255,0.15);
             }
         }
     }
@@ -96,13 +121,14 @@
             height: 40px;
             text-align: center;
             line-height: 43px;
-            background: var(--tg-grey-1);
+            background: rgba(255,255,255,0.12);
             display: inline-block;
             color: var(--tg-common-white);
             margin-right: 10px;
             flex: 0 0 auto;
+            transition: background 0.3s;
             &:hover{
-                background: var(--tg-theme-primary);
+                background: var(--tg-theme-secondary);
             }
         }
     }
@@ -113,56 +139,43 @@
             margin-top: -98px;
             padding-top: 206px;
         }
-        @media #{$md,$sm,$xs} {
+        @media #{$md} {
             margin-top: -88px;
             padding-top: 184px;
         }
+        @media #{$sm,$xs} {
+            margin-top: 0;
+            padding-top: 80px;
+        }
     }
     &-copyright{
-        border-top: 1px solid #212635;
-        padding: 43px 10px;
+        border-top: 1px solid rgba(255,255,255,0.12);
+        padding: 35px 10px;
+        text-align: center;
         & span{
-            font-weight: 500;
-            font-size: 14px;
-            text-transform: capitalize;
-            color: #7b7e88;
+            font-weight: 400;
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
             display: inline-block;
             & a{
+                color: var(--tg-common-white);
                 &:hover{
-                    color: var(--tg-common-white);
+                    color: var(--tg-theme-secondary);
                 }
             }
         }
     }
     &-su{
         &-wrapper{
-            & .tg-footer-copyright {
-                border-top: 1px solid #231145;
-            }
             & .tg-footer-widget-title {
                 font-family: var(--tg-ff-outfit);
             }
             & .tg-footer-link ul li a {
                 font-family: var(--tg-ff-outfit);
-                color: #ccc3dc;
-            }
-            & .tg-footer-info ul li {
-                color: #ccc3dc;
-            }
-            & .tg-footer-widget p {
-                color: #ccc3dc;
-                line-height: 26px;
-                font-family: var(--tg-ff-outfit);
-                font-size: 16px;
             }
             & .tg-footer-form input {
                 font-size: 14px;
-                color: var(--tg-common-black);
                 border-radius: 100px;
-                &::placeholder{
-                    font-size: 14px;
-                    color: #6a5e7e;
-                }
             }
             & .tg-footer-form-btn {
                 width: 45px;
@@ -173,22 +186,14 @@
                 border-radius: 100px;
             }
             & .tg-footer-copyright span {
-                font-weight: 400;
                 font-family: var(--tg-ff-outfit);
-                color: #6c6280;
-                font-size: 18px;
-            }
-            & .tg-footer-social a {
-                background: #2c2140;
+                font-size: 16px;
             }
         }
         &-2{
             &-wrapper{
-                & .tg-footer-social a {
-                    background: #362752;
-                }
                 & .tg-footer-copyright {
-                    padding: 46px 10px;
+                    padding: 35px 10px;
                 }
             }
         }

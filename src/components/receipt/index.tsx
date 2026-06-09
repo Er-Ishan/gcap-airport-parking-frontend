@@ -1,17 +1,19 @@
 import HeaderOne from "../../layouts/headers/HeaderOne";
 import FooterTwo from "../../layouts/footers/FooterTwo";
 import BreadCrumb from "../common/BreadCrumb";
-import PaymentPage from "./PaymentPage";
+import Receipt from "./Receipt";
 
-const PaymentPageWrapper = () => {
+const ReceiptPage = () => {
     return (
         <>
             <HeaderOne />
-            <BreadCrumb title="Secure Payment" sub_title="Payment" />
-            <PaymentPage />
+            <BreadCrumb title="Booking Receipt" sub_title="Receipt" />
+            <main>
+                <Receipt />
+            </main>
             <FooterTwo />
         </>
     );
 };
 
-export default PaymentPageWrapper;
+export default ReceiptPage;

@@ -1,4 +1,4 @@
-﻿import FooterSix from "../../../layouts/footers/FooterSix"
+﻿import FooterTwo from "../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
 import AboutArea from "./AboutArea"
@@ -15,7 +15,7 @@ const About = () => {
             <Choose />
             <Cta />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

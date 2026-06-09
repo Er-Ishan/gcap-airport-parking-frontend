@@ -8,7 +8,7 @@ import CtaTwo from "./CtaTwo"
 import Listing from "./Listing"
 import Location from "./Location"
 import CtaThree from "./CtaThree"
-import FooterFive from "../../../layouts/footers/FooterFive"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 
 const HomeFive = () => {
@@ -25,7 +25,7 @@ const HomeFive = () => {
          <Testimonial style={true} />
          <Blog />
          <CtaTwo />
-         <FooterFive />
+         <FooterTwo />
       </>
    )
 }

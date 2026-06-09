@@ -9,7 +9,7 @@ import Testimonial from "./Testimonial"
 import Cta from "../home-one/Cta"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BannerFormThree from "../../common/banner-form/BannerFormThree"
-import FooterThree from "../../../layouts/footers/FooterThree"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 import Listing from"./Listing";
 
 const HomeThree = () => {
@@ -29,7 +29,7 @@ const HomeThree = () => {
             <Blog />
             <Cta />
          </main>
-         <FooterThree />
+         <FooterTwo />
       </>
    )
 }

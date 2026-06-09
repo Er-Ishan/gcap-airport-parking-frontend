@@ -1,19 +1,19 @@
 import HeaderOne from "../../layouts/headers/HeaderOne";
 import FooterTwo from "../../layouts/footers/FooterTwo";
-import BookingForm from "./BookingForm";
 import BreadCrumb from "../common/BreadCrumb";
+import BookingDetails from "./BookingDetails";
 
-const BookingFormPage = () => {
+const BookingDetailsPage = () => {
     return (
         <>
             <HeaderOne />
-            <BreadCrumb title="Booking Form" sub_title="Book Now" />
+            <BreadCrumb title="Booking Details" sub_title="Details" />
             <main>
-                <BookingForm />
+                <BookingDetails />
             </main>
             <FooterTwo />
         </>
     );
 };
 
-export default BookingFormPage;
+export default BookingDetailsPage;

@@ -1,0 +1,747 @@
+/* ============================================================
+   Booking Form & Confirmation — shared styles
+   All colors use CSS variables; no hardcoded hex values.
+   ============================================================ */
+
+/* Page wrapper */
+.bk-page {
+  padding-bottom: 160px;
+  background: var(--tg-grey-5);
+  min-height: 70vh;
+}
+
+/* ── Banner ──────────────────────────────────────── */
+.bk-banner {
+  background: linear-gradient(135deg, var(--tg-theme-secondary) 0%, var(--tg-theme-primary) 100%);
+  padding: 36px 0 32px;
+  margin-bottom: 40px;
+}
+
+.bk-banner-title {
+  color: var(--tg-common-white);
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+
+.bk-banner-text {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ── Form card ───────────────────────────────────── */
+.bk-form-card {
+  background: var(--tg-common-white);
+  border-radius: 16px;
+  border: 1px solid var(--tg-border-1);
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Section heading inside the form card */
+.bk-section-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--tg-common-black);
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--tg-grey-3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bk-section-heading i {
+  color: var(--tg-theme-secondary);
+}
+
+/* Form labels */
+.bk-form-label {
+  font-size: 13px;
+}
+
+/* helper text beneath headings */
+.bk-helper-text {
+  font-size: 13px;
+  color: var(--tg-grey-6);
+  margin-bottom: 12px;
+}
+
+/* Radio toggle labels */
+.bk-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--tg-grey-6);
+}
+
+.bk-radio-label--active {
+  font-weight: 700;
+  color: var(--tg-theme-secondary);
+}
+
+.bk-radio-label input[type="radio"] {
+  accent-color: var(--tg-theme-secondary);
+}
+
+/* Registration field — uppercase */
+.bk-registration-input {
+  text-transform: uppercase;
+}
+
+/* Terms checkbox row */
+.bk-terms-box {
+  background: var(--tg-grey-5);
+  border: 1px solid var(--tg-border-1);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bk-terms-checkbox {
+  accent-color: var(--tg-theme-secondary);
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.bk-terms-label {
+  cursor: pointer;
+  margin: 0;
+  font-size: 13px;
+  color: var(--tg-grey-1);
+}
+
+.bk-terms-label a {
+  color: var(--tg-theme-secondary);
+  text-decoration: underline;
+}
+
+/* Submit button */
+.bk-submit-btn {
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--tg-theme-secondary);
+  color: var(--tg-common-white);
+  cursor: pointer;
+  transition: background 0.3s ease, opacity 0.3s ease;
+}
+
+.bk-submit-btn:hover:not(:disabled) {
+  background: var(--tg-theme-primary);
+  color: var(--tg-common-white);
+}
+
+.bk-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* ── Order summary card ──────────────────────────── */
+.bk-summary-card {
+  position: sticky;
+  top: 100px;
+  background: var(--tg-common-white);
+  border-radius: 16px;
+  border: 2px solid var(--tg-theme-secondary);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(103, 167, 30, 0.12);
+}
+
+.bk-summary-header {
+  background: linear-gradient(135deg, var(--tg-theme-secondary) 0%, var(--tg-theme-primary) 100%);
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.bk-summary-header h5 {
+  color: var(--tg-common-white);
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.bk-summary-body {
+  padding: 20px;
+}
+
+.bk-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--tg-grey-3);
+  font-size: 13px;
+}
+
+.bk-summary-label {
+  color: var(--tg-grey-4);
+}
+
+.bk-summary-value {
+  color: var(--tg-common-black);
+  text-align: right;
+  max-width: 55%;
+}
+
+.bk-summary-discount {
+  color: var(--tg-theme-secondary);
+}
+
+.bk-summary-total-box {
+  margin-top: 16px;
+  background: linear-gradient(135deg, var(--tg-theme-secondary) 0%, var(--tg-theme-primary) 100%);
+  border-radius: 10px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bk-summary-total-label {
+  color: var(--tg-common-white);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.bk-summary-total-amount {
+  color: var(--tg-common-white);
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.bk-secure-note {
+  font-size: 11px;
+  color: var(--tg-grey-4);
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.bk-secure-note i {
+  color: var(--tg-theme-secondary);
+}
+
+/* ── Booking Confirmation page ───────────────────── */
+.bk-confirm-page {
+  padding-top: 60px;
+  padding-bottom: 160px;
+  background: var(--tg-grey-5);
+  min-height: 70vh;
+}
+
+.bk-confirm-container {
+  max-width: 680px;
+}
+
+/* Success banner */
+.bk-success-banner {
+  background: linear-gradient(135deg, var(--tg-theme-secondary) 0%, var(--tg-theme-primary) 100%);
+  border-radius: 18px;
+  padding: 44px 32px 36px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 32px rgba(103, 167, 30, 0.25);
+}
+
+.bk-success-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.bk-success-icon-wrap i {
+  font-size: 34px;
+  color: var(--tg-common-white);
+}
+
+.bk-success-title {
+  color: var(--tg-common-white);
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.bk-success-text {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.bk-ref-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px 28px;
+}
+
+.bk-ref-label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.bk-ref-code {
+  color: var(--tg-common-white);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+/* Details card */
+.bk-detail-card {
+  background: var(--tg-common-white);
+  border-radius: 16px;
+  border: 1px solid var(--tg-border-1);
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.bk-detail-card-header {
+  background: var(--tg-grey-5);
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--tg-border-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bk-detail-card-header i {
+  color: var(--tg-theme-secondary);
+}
+
+.bk-detail-card-header h5 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bk-detail-card-body {
+  padding: 20px 24px;
+}
+
+.bk-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--tg-grey-3);
+  font-size: 14px;
+}
+
+.bk-detail-label {
+  color: var(--tg-grey-4);
+}
+
+.bk-detail-value {
+  color: var(--tg-common-black);
+  text-align: right;
+  max-width: 60%;
+}
+
+.bk-detail-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0 0;
+  font-size: 15px;
+}
+
+.bk-detail-total strong {
+  color: var(--tg-theme-secondary);
+  font-size: 18px;
+}
+
+/* Info / warning box (amber — intentional non-theme color for warning context) */
+.bk-info-box {
+  background: #fffbeb;
+  border: 1px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.bk-info-box i {
+  color: #f59e0b;
+  font-size: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.bk-info-box p {
+  margin: 0;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.6;
+}
+
+/* Action buttons */
+.bk-action-btn-outline {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  border: 2px solid var(--tg-theme-secondary);
+  background: var(--tg-common-white);
+  color: var(--tg-theme-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.bk-action-btn-outline:hover {
+  background: var(--tg-theme-secondary);
+  color: var(--tg-common-white);
+}
+
+/* No booking error state */
+.bk-no-booking {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bk-no-booking i {
+  font-size: 48px;
+  color: #f59e0b;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.bk-no-booking p {
+  color: var(--tg-grey-6);
+  margin-bottom: 20px;
+}
+
+/* Input height fix */
+.bk-input-tall {
+  height: 48px;
+}
+
+/* ============================================================
+   Receipt Page
+   ============================================================ */
+
+.bk-receipt-section {
+  padding: 40px 0 60px;
+  background: var(--tg-grey-5);
+  min-height: 70vh;
+}
+
+.bk-receipt-wrapper {
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--tg-common-white);
+  border: 1px solid var(--tg-border-1);
+  border-radius: 14px;
+  padding: 32px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.bk-receipt-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.bk-receipt-logo-col {
+  flex: 1 1 240px;
+}
+
+.bk-receipt-logo-col img {
+  height: 72px;
+  width: auto;
+}
+
+.bk-receipt-logo-col p {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--tg-grey-4);
+  line-height: 1.6;
+}
+
+.bk-receipt-id-box {
+  flex: 1 1 260px;
+  border: 1px solid var(--tg-border-1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bk-receipt-id-bar {
+  background: var(--tg-theme-secondary);
+  color: var(--tg-common-white);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.bk-receipt-id-body {
+  padding: 14px 16px;
+  font-size: 13px;
+}
+
+.bk-receipt-id-body p {
+  margin-bottom: 8px;
+  color: var(--tg-grey-1);
+}
+
+.bk-receipt-id-body p:last-child {
+  margin-bottom: 0;
+}
+
+.bk-receipt-id-body code {
+  font-size: 12px;
+  word-break: break-all;
+  color: var(--tg-theme-primary);
+}
+
+.bk-receipt-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--tg-common-black);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--tg-grey-3);
+}
+
+.bk-receipt-bill-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tg-grey-1);
+}
+
+.bk-receipt-price-table {
+  width: 300px;
+  max-width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+
+.bk-receipt-price-table td {
+  padding: 6px 4px;
+  color: var(--tg-grey-1);
+}
+
+.bk-receipt-price-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+.bk-receipt-price-table .bk-discount {
+  color: #16a34a;
+}
+
+.bk-receipt-price-table .bk-total-row td {
+  font-weight: 700;
+  border-top: 2px solid var(--tg-border-1);
+  padding-top: 10px;
+  color: var(--tg-common-black);
+  font-size: 15px;
+}
+
+.bk-receipt-main-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  overflow-x: auto;
+  display: block;
+}
+
+.bk-receipt-main-table th {
+  background: var(--tg-theme-secondary);
+  color: var(--tg-common-white);
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.bk-receipt-main-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--tg-border-1);
+  color: var(--tg-grey-1);
+}
+
+.bk-receipt-thank-you {
+  margin-top: 36px;
+  font-size: 14px;
+  color: var(--tg-grey-4);
+  text-align: center;
+  font-style: italic;
+}
+
+.bk-receipt-actions {
+  max-width: 920px;
+  margin: 24px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ============================================================
+   Booking Details Page
+   ============================================================ */
+
+.bk-details-wrapper {
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--tg-common-white);
+  border: 1px solid var(--tg-border-2);
+  border-radius: 14px;
+  padding: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.bk-details-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--tg-grey-3);
+}
+
+.bk-details-logo img {
+  height: 64px;
+  width: auto;
+}
+
+.bk-details-logo p {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--tg-grey-4);
+}
+
+.bk-details-ref {
+  text-align: right;
+}
+
+.bk-details-ref h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--tg-theme-primary);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.bk-details-ref p {
+  font-size: 12px;
+  color: var(--tg-grey-4);
+  margin-bottom: 2px;
+}
+
+.bk-details-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.bk-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.bk-details-table .bk-details-section-row td {
+  background: var(--tg-grey-3);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--tg-theme-primary);
+  padding: 8px 10px;
+}
+
+.bk-details-table th {
+  background: var(--tg-grey-5);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--tg-grey-2);
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--tg-border-1);
+}
+
+.bk-details-table td {
+  padding: 8px 10px;
+  color: var(--tg-grey-1);
+  border-bottom: 1px solid var(--tg-border-1);
+  vertical-align: middle;
+}
+
+.bk-details-table .bk-total-cell {
+  font-weight: 700;
+  color: var(--tg-theme-primary);
+  font-size: 15px;
+}
+
+.bk-details-footer-note {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--tg-grey-4);
+  text-align: center;
+  border-top: 1px solid var(--tg-border-1);
+  padding-top: 16px;
+}
+
+.bk-details-actions {
+  max-width: 920px;
+  margin: 24px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ============================================================
+   Print — hide nav/footer, show only the document
+   ============================================================ */
+@media print {
+  .no-print,
+  header,
+  footer,
+  nav {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  .bk-receipt-wrapper,
+  .bk-details-wrapper {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

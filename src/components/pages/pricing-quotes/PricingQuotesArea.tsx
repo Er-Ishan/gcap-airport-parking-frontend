@@ -14,7 +14,7 @@ import {
     searchParkingDeals,
 } from "../../../services/parkingApi";
 
-const GCAP_GREEN = "#3cbc84";
+const GCAP_GREEN = "#67a71e";
 
 const DEFAULT_DROP = (() => {
     const d = new Date();
@@ -399,7 +399,7 @@ const PricingQuotesArea: React.FC = () => {
                                                             }}
                                                         >
                                                             <svg width="16" height="16" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0, marginTop: "2px" }}>
-                                                                <path d="M17 8.26858V9.00458C16.999 10.7297 16.4404 12.4083 15.4075 13.79C14.3745 15.1718 12.9226 16.1826 11.2683 16.6717C9.61394 17.1608 7.8458 17.1021 6.22757 16.5042C4.60934 15.9064 3.22772 14.8015 2.28877 13.3542C1.34981 11.907 0.903833 10.195 1.01734 8.47363C1.13085 6.75223 1.79777 5.11364 2.91862 3.80224C4.03948 2.49083 5.55423 1.57688 7.23695 1.1967C8.91967 0.816507 10.6802 0.990449 12.256 1.69258M17 2.60458L9 10.6126L6.6 8.21258" stroke="#3cbc84" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                                                <path d="M17 8.26858V9.00458C16.999 10.7297 16.4404 12.4083 15.4075 13.79C14.3745 15.1718 12.9226 16.1826 11.2683 16.6717C9.61394 17.1608 7.8458 17.1021 6.22757 16.5042C4.60934 15.9064 3.22772 14.8015 2.28877 13.3542C1.34981 11.907 0.903833 10.195 1.01734 8.47363C1.13085 6.75223 1.79777 5.11364 2.91862 3.80224C4.03948 2.49083 5.55423 1.57688 7.23695 1.1967C8.91967 0.816507 10.6802 0.990449 12.256 1.69258M17 2.60458L9 10.6126L6.6 8.21258" stroke="#67a71e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                                                             </svg>
                                                             {feature}
                                                         </li>
@@ -418,7 +418,7 @@ const PricingQuotesArea: React.FC = () => {
                                                         fontWeight: 700,
                                                         borderRadius: "8px",
                                                         border: "none",
-                                                        background: "#3cbc84",
+                                                        background: "#67a71e",
                                                         color: "#fff",
                                                         cursor: basePrice ? "pointer" : "not-allowed",
                                                         opacity: basePrice ? 1 : 0.5,

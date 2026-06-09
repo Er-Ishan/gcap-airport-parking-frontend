@@ -1,5 +1,5 @@
 import HeaderOne from "../../../layouts/headers/HeaderOne";
-import FooterOne from "../../../layouts/footers/FooterOne";
+import FooterTwo from "../../../layouts/footers/FooterTwo";
 import BreadCrumb from "../../common/BreadCrumb";
 import PricingQuotesArea from "./PricingQuotesArea";
 
@@ -11,7 +11,7 @@ const PricingQuotes = () => {
             <BreadCrumb title="Parking Pricing Quotes" sub_title="Pricing Quotes" />
             <PricingQuotesArea />
          </main>
-         <FooterOne />
+         <FooterTwo />
       </>
    );
 };

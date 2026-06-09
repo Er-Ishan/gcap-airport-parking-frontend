@@ -1,4 +1,4 @@
-import FooterFive from "../../../layouts/footers/FooterFive"
+import FooterTwo from "../../../layouts/footers/FooterTwo"
 import InnerHeader from "../../../layouts/headers/InnerHeader"
 import LoginArea from "./LoginArea"
 
@@ -9,7 +9,7 @@ const Login = () => {
          <main>
             <LoginArea />
          </main>
-         <FooterFive />
+         <FooterTwo />
       </>
    )
 }

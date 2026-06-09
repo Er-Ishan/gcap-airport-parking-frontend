@@ -32,6 +32,8 @@ import PricingQuotesMain from '../pages/PricingQuotesMain';
 import BookingFormMain from '../pages/BookingFormMain';
 import BookingConfirmationMain from '../pages/BookingConfirmationMain';
 import PaymentMain from '../pages/PaymentMain';
+import ReceiptMain from '../pages/ReceiptMain';
+import BookingDetailsMain from '../pages/BookingDetailsMain';
 import ErrorMain from '../pages/ErrorMain';
 
 const AppNavigation = () => {
@@ -70,7 +72,10 @@ const AppNavigation = () => {
         <Route path="/pricing-quotes" element={<PricingQuotesMain />} />
         <Route path="/booking-form" element={<BookingFormMain />} />
         <Route path="/booking-confirmation" element={<BookingConfirmationMain />} />
+        <Route path="/thank-you" element={<BookingConfirmationMain />} />
         <Route path="/payment" element={<PaymentMain />} />
+        <Route path="/receipt" element={<ReceiptMain />} />
+        <Route path="/booking-details" element={<BookingDetailsMain />} />
         <Route path="*" element={<ErrorMain />} />
       </Routes>
     </Router>

@@ -1,5 +1,5 @@
 ﻿import BlogDetailsArea from "./BlogDetailsArea"
-import FooterFive from "../../../layouts/footers/FooterFive"
+import FooterTwo from "../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
 
@@ -11,7 +11,7 @@ const BlogDetails = () => {
         <BreadCrumb title="Blog Details" sub_title="Exploring The Green Spac Realar Residence Area Harmony" />
         <BlogDetailsArea />
       </main>
-      <FooterFive />
+      <FooterTwo />
     </>
   )
 }

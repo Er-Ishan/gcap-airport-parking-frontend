@@ -1,4 +1,4 @@
-﻿import FooterSix from "../../../../layouts/footers/FooterSix"
+﻿import FooterTwo from "../../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../../common/BreadCrumb"
 import TeamDetailsArea from "./TeamDetailsArea"
@@ -11,7 +11,7 @@ const TeamDetails = () => {
             <BreadCrumb title="Esther Howard" sub_title="Esther Howard" />
             <TeamDetailsArea />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

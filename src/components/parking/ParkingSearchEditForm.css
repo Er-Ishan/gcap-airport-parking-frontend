@@ -1,0 +1,232 @@
+/* Parking Search Form Styles */
+
+.parking-search-form-wrapper {
+  background: var(--tg-common-white);
+  border-radius: 14px;
+  border: 1px solid var(--tg-border-1);
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.parking-form-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tg-grey-6);
+  margin-bottom: 6px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.parking-form-label i {
+  color: var(--tg-theme-secondary);
+}
+
+.parking-form-input {
+  height: 42px;
+  width: 100%;
+  background: var(--tg-common-white);
+  border: 1px solid #a2a9ac !important;
+  border-radius: 8px;
+  padding: 0 14px;
+  outline: none;
+  font-size: 14px;
+  color: var(--tg-grey-1);
+  transition: border-color 0.3s ease;
+}
+
+.parking-form-input:focus {
+  border-color: var(--tg-theme-secondary) !important;
+  box-shadow: 0 0 0 3px rgba(103, 167, 30, 0.12);
+}
+
+.parking-datepicker-wrapper {
+  position: relative;
+}
+
+.parking-form-error {
+  color: #dc3545;
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.parking-form-success {
+  color: var(--tg-theme-secondary);
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.parking-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 30px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 18px !important;
+  color: var(--tg-common-white);
+  background: var(--tg-theme-secondary);
+  border: 2px solid var(--tg-theme-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+}
+
+.parking-submit-btn:hover:not(:disabled) {
+  background: var(--tg-theme-primary);
+  border-color: var(--tg-theme-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(9, 43, 81, 0.25);
+}
+
+.parking-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.parking-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: var(--tg-grey-4);
+  border-color: var(--tg-grey-4);
+}
+
+.parking-submit-btn i {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.parking-submit-btn i.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Styles */
+
+/* Mobile (480px) */
+@media (max-width: 575px) {
+  .parking-search-form-wrapper {
+    padding: 16px 16px;
+  }
+
+  .parking-form-label {
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+
+  .parking-form-input {
+    height: 42px;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+
+  .parking-submit-btn {
+    width: 100%;
+    padding: 11px 16px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .parking-submit-btn i {
+    font-size: 13px;
+  }
+}
+
+/* Tablet (768px) */
+@media (min-width: 576px) and (max-width: 991px) {
+  .parking-search-form-wrapper {
+    padding: 20px 24px;
+  }
+
+  .parking-form-label {
+    font-size: 11px;
+  }
+
+  .parking-form-input {
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .parking-submit-btn {
+    width: 100%;
+    padding: 11px 20px;
+    font-size: 13px;
+    gap: 7px;
+  }
+
+  .parking-submit-btn i {
+    font-size: 13px;
+  }
+}
+
+/* Desktop (1024px and above) */
+@media (min-width: 992px) {
+  .parking-search-form-wrapper {
+    padding: 24px 28px;
+  }
+
+  .parking-form-label {
+    font-size: 12px;
+  }
+
+  .parking-form-input {
+    height: 46px !important;
+    font-size: 14px;
+    padding: 0 14px !important;
+  }
+
+  .parking-submit-btn {
+    width: auto;
+    padding: 12px 28px;
+    font-size: 14px;
+    gap: 8px;
+    min-width: 150px;
+  }
+
+  .parking-submit-btn i {
+    font-size: 14px;
+  }
+}
+
+/* Flatpickr customization */
+.parking-form-input.flatpickr-input {
+  padding-left: 14px;
+}
+
+/* Select dropdown styling */
+.parking-form-input option {
+  color: var(--tg-grey-1);
+  background: var(--tg-common-white);
+  padding: 10px;
+}
+
+.parking-form-input::-webkit-scrollbar {
+  width: 8px;
+}
+
+.parking-form-input::-webkit-scrollbar-track {
+  background: var(--tg-grey-3);
+}
+
+.parking-form-input::-webkit-scrollbar-thumb {
+  background: var(--tg-theme-secondary);
+  border-radius: 4px;
+}
+
+.parking-form-input::-webkit-scrollbar-thumb:hover {
+  background: var(--tg-theme-primary);
+}

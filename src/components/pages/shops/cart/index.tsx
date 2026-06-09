@@ -1,4 +1,4 @@
-﻿import FooterSix from "../../../../layouts/footers/FooterSix"
+﻿import FooterTwo from "../../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../../common/BreadCrumb"
 import CartArea from "./CartArea"
@@ -11,7 +11,7 @@ const Cart = () => {
             <BreadCrumb title="Cart Page" sub_title="Cart" />
             <CartArea />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

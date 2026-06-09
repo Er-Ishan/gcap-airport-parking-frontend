@@ -2,7 +2,7 @@
 import Cta from "../pricing/Cta"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../common/BreadCrumb"
-import FooterThree from "../../../layouts/footers/FooterThree"
+import FooterTwo from "../../../layouts/footers/FooterTwo"
 
 const Faq = () => {
    return (
@@ -13,7 +13,7 @@ const Faq = () => {
             <FaqArea />
             <Cta />
          </main>
-         <FooterThree />
+         <FooterTwo />
       </>
    )
 }

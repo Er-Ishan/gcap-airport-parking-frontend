@@ -12,7 +12,7 @@ import Testimonial from "../home-seven/Testimonial"
 import Blog from "./Blog"
 import Brand from "../home-seven/Brand"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
-import FooterSix from "../../../layouts/footers/FooterSix"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 
 const HomeSix = () => {
   return (
@@ -33,7 +33,7 @@ const HomeSix = () => {
         <Brand />
         <Blog />
       </main>
-      <FooterSix />
+      <FooterTwo />
     </>
   )
 }

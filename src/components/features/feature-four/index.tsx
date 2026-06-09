@@ -1,7 +1,7 @@
 ﻿import FeatureArea from "./FeatureArea"
 import Breadcrumb from "./Breadcrumb"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
-import FooterSix from "../../../layouts/footers/FooterSix"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 
 const FeatureFour = () => {
    return (
@@ -11,7 +11,7 @@ const FeatureFour = () => {
             <Breadcrumb />
             <FeatureArea />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

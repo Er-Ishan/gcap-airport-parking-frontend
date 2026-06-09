@@ -10,7 +10,7 @@ import Cta from "./Cta"
 import CtaTwo from "../home-one/Cta"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import BannerFormFour from "../../common/banner-form/BannerFormFour"
-import FooterThree from "../../../layouts/footers/FooterThree"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 
 const HomeFour = () => {
   return (
@@ -29,7 +29,7 @@ const HomeFour = () => {
         <Blog />
         <CtaTwo />
       </main>
-      <FooterThree />
+      <FooterTwo />
     </>
   )
 }

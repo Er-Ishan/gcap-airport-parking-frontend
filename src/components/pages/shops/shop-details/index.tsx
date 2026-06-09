@@ -1,4 +1,4 @@
-﻿import FooterSix from "../../../../layouts/footers/FooterSix"
+﻿import FooterTwo from "../../../../layouts/footers/FooterTwo"
 import HeaderOne from "../../../../layouts/headers/HeaderOne"
 import BreadCrumb from "../../../common/BreadCrumb"
 import ShopDetailsArea from "./ShopDetailsArea"
@@ -13,7 +13,7 @@ const ShopDetails = () => {
             <ShopDetailsArea />
             <ShopDetailsTabArea />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

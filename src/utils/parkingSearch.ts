@@ -123,3 +123,36 @@ export interface BookingLocationState {
     product_description?: string;
     dropoff_procedure?: string;
 }
+
+export interface BookingReceiptData {
+    booking_id: number | string;
+    transaction_id?: string;
+    title?: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    mobile: string;
+    vehicle_make?: string;
+    vehicle_model?: string;
+    vehicle_colour?: string;
+    vehicle_registration?: string;
+    passengers?: string | number;
+    depart_flight?: string;
+    depart_terminal?: string;
+    return_flight?: string;
+    return_terminal?: string;
+    product_name: string;
+    travelling_from: string;
+    service?: string;
+    drop_off_date: string;
+    return_date: string;
+    no_of_days: number;
+    quote_amount?: number | string;
+    discount?: number | string;
+    booking_fee?: number | string;
+    total_payable: number | string;
+    addons?: {
+        cancellation_cover?: boolean;
+        [key: string]: unknown;
+    };
+}

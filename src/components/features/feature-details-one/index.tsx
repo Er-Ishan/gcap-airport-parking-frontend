@@ -2,7 +2,7 @@
 import FeatureDetailsArea from "./FeatureDetailsArea"
 import FeatureAboutArea from "./FeatureAboutArea"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
-import FooterSix from "../../../layouts/footers/FooterSix"
+import FooterTwo from '../../../layouts/footers/FooterTwo'
 
 const FeatureDetailsOne = () => {
    return (
@@ -13,7 +13,7 @@ const FeatureDetailsOne = () => {
             <FeatureDetailsArea />
             <FeatureAboutArea />
          </main>
-         <FooterSix />
+         <FooterTwo />
       </>
    )
 }

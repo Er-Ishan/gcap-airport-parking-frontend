@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const GCAP_GREEN = "#3cbc84";
+const GCAP_GREEN = "#67a71e";
 const SESSION_SECONDS = 300;
 
 interface PaymentState {
@@ -96,7 +96,7 @@ const PaymentPage: React.FC = () => {
         await new Promise((r) => setTimeout(r, 1600));
         setLoading(false);
 
-        navigate("/booking-confirmation", {
+        navigate("/thank-you", {
             state: { ...bookingData, status: "Active" },
         });
     };
@@ -109,7 +109,7 @@ const PaymentPage: React.FC = () => {
         <section style={{ paddingTop: "0", paddingBottom: "160px", background: "#f7f9fc" }}>
 
             {/* Banner */}
-            <div style={{ background: `linear-gradient(135deg, ${GCAP_GREEN} 0%, #2aa870 100%)`, padding: "36px 0 32px", marginBottom: "40px" }}>
+            <div style={{ background: `linear-gradient(135deg, ${GCAP_GREEN} 0%, #4e8515 100%)`, padding: "36px 0 32px", marginBottom: "40px" }}>
                 <div className="container text-center">
                     <h2 style={{ color: "#fff", fontSize: "26px", fontWeight: 800, margin: "0 0 10px" }}>
                         Confirm &amp; Secure Your Payment
@@ -205,8 +205,8 @@ const PaymentPage: React.FC = () => {
 
                     {/* ── Right: Card Payment Form ── */}
                     <div className="col-lg-5">
-                        <div style={{ background: "#fff", borderRadius: "20px", border: `2px solid ${GCAP_GREEN}`, overflow: "hidden", boxShadow: "0 4px 24px rgba(60,188,132,0.12)", opacity: sessionExpired ? 0.6 : 1, pointerEvents: sessionExpired ? "none" : "auto" }}>
-                            <div style={{ background: `linear-gradient(135deg, ${GCAP_GREEN} 0%, #2aa870 100%)`, padding: "18px 24px", textAlign: "center" }}>
+                        <div style={{ background: "#fff", borderRadius: "20px", border: `2px solid ${GCAP_GREEN}`, overflow: "hidden", boxShadow: "0 4px 24px rgba(103, 167, 30, 0.12)", opacity: sessionExpired ? 0.6 : 1, pointerEvents: sessionExpired ? "none" : "auto" }}>
+                            <div style={{ background: `linear-gradient(135deg, ${GCAP_GREEN} 0%, #4e8515 100%)`, padding: "18px 24px", textAlign: "center" }}>
                                 <h5 style={{ color: "#fff", margin: 0, fontSize: "16px", fontWeight: 700 }}>
                                     <i className="fa-solid fa-lock me-2"></i>Secure Payment
                                 </h5>
