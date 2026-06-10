@@ -709,6 +709,13 @@
     & .logo-1 {
         display: none !important;
     }
+    /* Responsive logo sizing */
+    @media #{$md} {
+        & .logo img { height: 90px !important; }
+    }
+    @media #{$sm,$xs} {
+        & .logo img { height: 65px !important; }
+    }
 }
 
 /* No spacer — hero/content extends under the fixed header */

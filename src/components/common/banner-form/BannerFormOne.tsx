@@ -245,15 +245,26 @@ const BannerFormOne = () => {
   .banner-form-wrapper {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    padding: 16px;
+    gap: 0 !important;
+    padding: 0 !important;
     height: auto !important;
   }
   .banner-form-field {
     width: 100% !important;
     min-width: 0 !important;
     border-right: none !important;
-    height: auto !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    min-height: 68px !important;
+    padding: 0 16px !important;
+    box-sizing: border-box;
+  }
+  .banner-form-wrapper > .banner-form-field:nth-child(odd):not(.banner-form-field--first) {
+    border-right: 1px solid #f2f2f2 !important;
+  }
+  .banner-form-field--first {
+    grid-column: span 2;
+    border-radius: 14px 14px 0 0 !important;
+    border-right: none !important;
   }
   .promo-field {
     grid-column: span 1;
@@ -263,12 +274,8 @@ const BannerFormOne = () => {
     width: 100% !important;
     min-width: 0 !important;
     height: 52px;
-    border-radius: 8px !important;
-    align-self: stretch;
+    border-radius: 0 0 14px 14px !important;
     margin: 0;
-  }
-  .banner-form-field--first {
-    border-radius: 8px !important;
   }
 }
 
@@ -277,26 +284,40 @@ const BannerFormOne = () => {
 ========================= */
 @media (max-width: 480px) {
   .banner-form-wrapper {
-    display: flex !important;
-    flex-direction: column;
-    gap: 12px;
-    padding: 16px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 !important;
+    padding: 0 !important;
     height: auto !important;
   }
   .banner-form-field {
     width: 100% !important;
     min-width: 0 !important;
-    flex: 0 0 100% !important;
+    flex: unset !important;
+    border-right: none !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    min-height: 62px !important;
+    padding: 0 14px !important;
+    box-sizing: border-box;
+  }
+  .banner-form-wrapper > .banner-form-field:nth-child(2),
+  .banner-form-wrapper > .banner-form-field:nth-child(4),
+  .banner-form-wrapper > .banner-form-field:nth-child(6) {
+    border-right: 1px solid #f2f2f2 !important;
+  }
+  .banner-form-field--first {
+    grid-column: span 2;
+    border-radius: 14px 14px 0 0 !important;
     border-right: none !important;
   }
   .banner-form-submit {
+    grid-column: span 2;
     width: 100% !important;
     min-width: 0 !important;
     height: 52px;
-    border-radius: 8px !important;
-  }
-  .banner-form-field--first {
-    border-radius: 8px !important;
+    border-radius: 0 0 14px 14px !important;
+    margin: 0;
+    justify-content: center !important;
   }
 }
             `}</style>

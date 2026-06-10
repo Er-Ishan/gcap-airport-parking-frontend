@@ -323,6 +323,21 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
+            position: relative;
+            &::before {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.45);
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+            & .container {
+                position: relative;
+                z-index: 2;
+            }
             & .tg-hero-title {
                 border: none;
                 font-size: 60px;
@@ -336,12 +351,16 @@
             & .tg-hero-content {
                 padding-top: 110px;
                 padding-bottom: 60px;
-                @media #{$md,$sm} {
+                @media #{$md} {
+                    padding-top: 100px;
+                    padding-bottom: 50px;
+                }
+                @media #{$sm} {
                     padding-top: 90px;
                     padding-bottom: 50px;
                 }
                 @media #{$xs} {
-                    padding-top: 80px;
+                    padding-top: 85px;
                     padding-bottom: 40px;
                 }
             }
