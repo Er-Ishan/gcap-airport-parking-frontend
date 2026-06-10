@@ -3,7 +3,6 @@ import Flatpickr from "react-flatpickr";
 import {
   TIME_OPTIONS,
   addDaysToDateString,
-  formatPrettyDate,
   type PromoData,
 } from "../../utils/parkingSearch";
 import "./ParkingSearchEditForm.css";

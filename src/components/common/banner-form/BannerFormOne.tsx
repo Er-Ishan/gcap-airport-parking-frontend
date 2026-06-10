@@ -107,8 +107,6 @@ const BannerFormOne = () => {
     navigate("/pricing-quotes");
   };
 
-  const FIELD_HEIGHT = 72;
-
   const fieldStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
