@@ -1,12 +1,12 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import HomeOneMain from '../pages/HomeOneMain';
+import HotelGridMain from '../pages/HotelGridMain';
 import HomeTwoMain from '../pages/HomeTwoMain';
 import HomeThreeMain from '../pages/HomeThreeMain';
 import HomeFourMain from '../pages/HomeFourMain';
 import HomeFiveMain from '../pages/HomeFiveMain';
 import HomeSixMain from '../pages/HomeSixMain';
 import HomeSevenMain from '../pages/HomeSevenMain';
-import HotelGridMain from '../pages/HotelGridMain';
 import HotelGridTwoMain from '../pages/HotelGridTwoMain';
 import HotelListingMain from '../pages/HotelListingMain';
 import TourGridOneMain from '../pages/TourGridOneMain';
@@ -47,7 +47,7 @@ const AppNavigation = () => {
         <Route path="/home-five" element={<HomeFiveMain />} />
         <Route path="/home-six" element={<HomeSixMain />} />
         <Route path="/home-seven" element={<HomeSevenMain />} />
-        <Route path="/hotel-grid" element={<HotelGridMain />} />
+        <Route path="/airport-parking" element={<HotelGridMain />} />
         <Route path="/tour-grid-1" element={<HotelGridTwoMain />} />
         <Route path="/tour-grid-2" element={<TourGridOneMain />} />
         <Route path="/map-listing" element={<HotelListingMain />} />

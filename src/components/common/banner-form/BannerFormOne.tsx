@@ -166,7 +166,7 @@ const BannerFormOne = () => {
     <form onSubmit={handleSubmit}>
       <style>{`
 
-      /* Remove Flatpickr border */
+/* Remove Flatpickr border */
 .flatpickr-input {
   border: none !important;
   outline: none !important;
@@ -174,22 +174,19 @@ const BannerFormOne = () => {
   background: transparent !important;
   padding: 0 !important;
 }
-
-/* Remove focus border */
 .flatpickr-input:focus {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
-
-/* Remove mobile browser styling */
 .flatpickr-input[type="text"] {
   -webkit-appearance: none;
   appearance: none;
 }
- .promo-input::placeholder {
+.promo-input::placeholder {
   color: #aaa !important;
 }
+
 /* =========================
    DESKTOP (1025px+)
 ========================= */
@@ -197,106 +194,108 @@ const BannerFormOne = () => {
   display: flex;
   align-items: stretch;
   gap: 12px;
-   padding: 0 10px;
+  padding: 0 10px;
 }
-  .banner-form-field {
-  flex: 1 1 140px;
+.banner-form-field {
+  flex: 1 1 130px;
+  min-width: 0;
 }
-  
-  .banner-form-submit {
-  min-width: 160px !important;
+.banner-form-submit {
+  flex-shrink: 0;
+  min-width: 150px !important;
 }
 
 /* =========================
-   LAPTOP / 1024px
+   LAPTOP 769–1024px
 ========================= */
 @media (max-width: 1024px) and (min-width: 769px) {
-
- .banner-form-wrapper {
+  .banner-form-wrapper {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 16px;
     padding: 20px;
     height: auto !important;
   }
-
   .banner-form-field {
     width: 100% !important;
     min-width: 0 !important;
     border-right: none !important;
     height: auto !important;
   }
-     .promo-field {
+  .promo-field {
     grid-column: span 2;
   }
-
-   .banner-form-submit {
+  .banner-form-submit {
     grid-column: span 1;
-    width: 100%;
+    width: 100% !important;
+    min-width: 0 !important;
     height: 56px;
     align-self: end;
+    border-radius: 8px !important;
+  }
+  .banner-form-field--first {
     border-radius: 8px !important;
   }
 }
 
 /* =========================
-   TABLET 768px
+   TABLET 481–768px
 ========================= */
-/* Tablet */
 @media (max-width: 768px) and (min-width: 481px) {
-
   .banner-form-wrapper {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    padding: 15px;
+    gap: 14px;
+    padding: 16px;
     height: auto !important;
   }
-
   .banner-form-field {
     width: 100% !important;
     min-width: 0 !important;
     border-right: none !important;
     height: auto !important;
   }
-
-  /* Promo Code */
   .promo-field {
     grid-column: span 1;
   }
-
-  /* Get Quote */
   .banner-form-submit {
-    width: 100%;
-    height: 56px;
+    grid-column: span 2;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 52px;
     border-radius: 8px !important;
-    align-self: end;
+    align-self: stretch;
     margin: 0;
+  }
+  .banner-form-field--first {
+    border-radius: 8px !important;
   }
 }
 
 /* =========================
-   MOBILE 480px
+   MOBILE ≤480px
 ========================= */
 @media (max-width: 480px) {
-
   .banner-form-wrapper {
     display: flex !important;
     flex-direction: column;
-    gap: 15px;
-    padding: 15px !important;
+    gap: 12px;
+    padding: 16px !important;
     height: auto !important;
   }
-
   .banner-form-field {
     width: 100% !important;
-    min-width: 100% !important;
+    min-width: 0 !important;
     flex: 0 0 100% !important;
+    border-right: none !important;
   }
-
   .banner-form-submit {
-    width: 100%;
+    width: 100% !important;
+    min-width: 0 !important;
     height: 52px;
+    border-radius: 8px !important;
+  }
+  .banner-form-field--first {
     border-radius: 8px !important;
   }
 }
@@ -314,10 +313,9 @@ const BannerFormOne = () => {
         {/* Airport */}
         <div
           ref={airportRef}
-          className="banner-form-field"
+          className="banner-form-field banner-form-field--first"
           style={{
             ...fieldStyle,
-            
             position: "relative",
             borderRadius: "14px 0 0 14px",
           }}

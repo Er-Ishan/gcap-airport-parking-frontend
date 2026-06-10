@@ -16,14 +16,14 @@ const HeaderOne = () => {
    return (
       <>
          <header className="tg-header-height">
-            <div className={`tg-header__area tg-header-tu-menu tg-header-lg-space z-index-999 tg-transparent ${sticky ? "header-sticky" : ""}`} id="header-sticky">
+            <div className={`tg-header__area tg-header-tu-menu tg-header-lg-space z-index-999 tg-header-fixed ${sticky ? "header-sticky" : ""}`} id="header-sticky">
                <div className="container">
                   <div className="row align-items-center">
                      <div className="col-xxl-9 col-xl-8 col-lg-8 col-5">
                         <div className="tgmenu__wrap d-flex align-items-center">
                            <div className="logo mr-10">
-                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="GCAP Airport Parking" style={{ height: "80px", width: "auto" }}/></Link>
-                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" style={{ height: "80px", width: "auto" }} /></Link>
+                              <Link className="logo-1" to="/"><img src="/assets/img/logo/logo-white.png" alt="GCAP Airport Parking" style={{ height: "110px", width: "auto" }}/></Link>
+                              <Link className="logo-2 d-none" to="/"><img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" style={{ height: "110px", width: "auto" }} /></Link>
                            </div>
                            <nav className="tgmenu__nav tgmenu-1-space ml-190">
                               <div className="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">

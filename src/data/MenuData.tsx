@@ -20,19 +20,19 @@ const menu_data: MenuItem[] = [
     {
         id: 2,
         title: "Airport Parking",
-        link: "/hotel-grid",
+        link: "#",
         has_dropdown: true,
         sub_menus: [
-            { link: "/hotel-grid?airport=heathrow", title: "Heathrow" },
-            { link: "/hotel-grid?airport=gatwick", title: "Gatwick" },
-            { link: "/hotel-grid?airport=manchester", title: "Manchester" },
-            { link: "/hotel-grid?airport=stansted", title: "Stansted" },
-            { link: "/hotel-grid?airport=luton", title: "Luton" },
-            { link: "/hotel-grid?airport=cardiff", title: "Cardiff" },
-            { link: "/hotel-grid?airport=bristol", title: "Bristol" },
-            { link: "/hotel-grid?airport=exeter", title: "Exeter" },
-            { link: "/hotel-grid?airport=liverpool", title: "Liverpool" },
-            { link: "/hotel-grid?airport=southend", title: "Southend" }
+            { link: "/airport-parking?airport=heathrow", title: "Heathrow" },
+            { link: "/airport-parking?airport=gatwick", title: "Gatwick" },
+            { link: "/airport-parking?airport=manchester", title: "Manchester" },
+            { link: "/airport-parking?airport=stansted", title: "Stansted" },
+            { link: "/airport-parking?airport=luton", title: "Luton" },
+            { link: "/airport-parking?airport=cardiff", title: "Cardiff" },
+            { link: "/airport-parking?airport=bristol", title: "Bristol" },
+            { link: "/airport-parking?airport=exeter", title: "Exeter" },
+            { link: "/airport-parking?airport=liverpool", title: "Liverpool" },
+            { link: "/airport-parking?airport=southend", title: "Southend" }
         ],
     },
     {

@@ -6,7 +6,6 @@ import Ads from "./Ads"
 import Process from "./Process"
 import Testimonial from "./Testimonial"
 import Blog from "./Blog"
-import Cta from "./Cta"
 import HeaderOne from "../../../layouts/headers/HeaderOne"
 import FooterOne from "../../../layouts/footers/FooterOne"
 
@@ -23,7 +22,7 @@ const HomeOne = () => {
             <Process />
             <Testimonial />
             <Blog style={false} />
-            <Cta />
+            
          </main>
          <FooterOne />
       </>

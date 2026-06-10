@@ -686,6 +686,36 @@
     }
 }
 
+/* Always-visible fixed white header (replaces tg-transparent overlay) */
+.tg-header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0px 1px 3px 0px rgba(18, 20, 32, 0.14);
+    & .tgmenu__main-menu ul > li > a {
+        padding: 21px 12px;
+        color: var(--tg-common-black);
+    }
+    & .tgmenu-offcanvas-open-btn span {
+        background-color: var(--tg-common-black);
+    }
+    & .logo-2 {
+        display: block !important;
+    }
+    & .logo-1 {
+        display: none !important;
+    }
+}
+
+/* No spacer — hero/content extends under the fixed header */
+.tg-header-height {
+    height: 0;
+}
+
 .header-sticky {
     position: fixed;
     top: 0;

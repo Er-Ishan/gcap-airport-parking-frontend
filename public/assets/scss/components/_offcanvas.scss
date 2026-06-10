@@ -89,7 +89,9 @@
     }
     &__logo {
         & img {
-            max-height: 34px;
+            max-height: 100px;
+            height: 100px;
+            width: auto;
         }
     }
     &__side-info {

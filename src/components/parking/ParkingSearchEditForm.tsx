@@ -94,14 +94,11 @@ const ParkingSearchEditForm: React.FC<Props> = ({
     <div className="container mb-30">
       <div className="parking-search-form-wrapper">
         <form onSubmit={onSubmit}>
-          <div className="row g-3 booking-form-row">
+          <div className="parking-form-row">
             {/* Airport */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field">
               <label className="parking-form-label">
-                <i
-                  className="fa-regular fa-location-dot me-1"
-                ></i>
-                Airport
+                <i className="fa-regular fa-location-dot me-1"></i>Airport
               </label>
               <select
                 value={selectedAirport}
@@ -109,167 +106,119 @@ const ParkingSearchEditForm: React.FC<Props> = ({
                 className="parking-form-input"
               >
                 {AIRPORTS.map((a) => (
-                  <option key={a.value} value={a.value}>
-                    {a.label}
-                  </option>
+                  <option key={a.value} value={a.value}>{a.label}</option>
                 ))}
               </select>
             </div>
 
             {/* Drop-off date */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field">
               <label className="parking-form-label">
-                <i
-                  className="fa-regular fa-calendar me-1"
-                ></i>
-                Drop-off date
+                <i className="fa-regular fa-calendar me-1"></i>Drop-off date
               </label>
-              <div className="parking-datepicker-wrapper">
-                <Flatpickr
-                  value={dropPickerDate}
-                  onChange={handleDropDateChange}
-                  options={{ dateFormat: "d/m/Y", minDate: "today" }}
-                  className="parking-form-input"
-                  placeholder="dd/mm/yyyy"
-                />
-              </div>
+              <Flatpickr
+                value={dropPickerDate}
+                onChange={handleDropDateChange}
+                options={{ dateFormat: "d/m/Y", minDate: "today" }}
+                className="parking-form-input"
+                placeholder="dd/mm/yyyy"
+              />
             </div>
 
             {/* Drop-off time */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field parking-form-field--narrow">
               <label className="parking-form-label">
-                <i
-                  className="fa-regular fa-clock me-1"
-                ></i>
-                Drop-off time
+                <i className="fa-regular fa-clock me-1"></i>Drop-off time
               </label>
               <select
                 value={dropTimePart}
-                onChange={(e) =>
-                  onDropDateStateChange(`${dropDatePart} ${e.target.value}`)
-                }
+                onChange={(e) => onDropDateStateChange(`${dropDatePart} ${e.target.value}`)}
                 className="parking-form-input"
               >
                 {TIME_OPTIONS.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
+                  <option key={t.value} value={t.value}>{t.label}</option>
                 ))}
               </select>
             </div>
 
             {/* Return date */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field">
               <label className="parking-form-label">
-                <i
-                  className="fa-regular fa-calendar-check me-1"
-                ></i>
-                Return date
+                <i className="fa-regular fa-calendar-check me-1"></i>Return date
               </label>
               <Flatpickr
                 ref={returnFpRef as any}
                 value={returnPickerDate}
                 onChange={handleReturnDateChange}
-                options={{
-                  dateFormat: "d/m/Y",
-                  minDate: dropDatePart ? new Date(dropDatePart) : "today",
-                }}
+                options={{ dateFormat: "d/m/Y", minDate: dropDatePart ? new Date(dropDatePart) : "today" }}
                 className="parking-form-input"
                 placeholder="dd/mm/yyyy"
               />
             </div>
 
             {/* Return time */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field parking-form-field--narrow">
               <label className="parking-form-label">
-                <i
-                  className="fa-regular fa-clock me-1"
-                ></i>
-                Return time
+                <i className="fa-regular fa-clock me-1"></i>Return time
               </label>
               <select
                 value={returnTimePart}
-                onChange={(e) =>
-                  onReturnDateStateChange(`${returnDatePart} ${e.target.value}`)
-                }
+                onChange={(e) => onReturnDateStateChange(`${returnDatePart} ${e.target.value}`)}
                 className="parking-form-input"
               >
                 {TIME_OPTIONS.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
+                  <option key={t.value} value={t.value}>{t.label}</option>
                 ))}
               </select>
             </div>
 
             {/* Vehicle No */}
-            <div className="col-12 col-md-6 col-lg-2">
+            <div className="parking-form-field parking-form-field--narrow">
               <label className="parking-form-label">
-                <i
-                  className="fa-solid fa-car me-1"
-                ></i>
-                Vehicle No
+                <i className="fa-solid fa-car me-1"></i>Vehicle No
               </label>
-
               <select
                 value={vehicleNo}
                 onChange={(e) => setVehicleNo(e.target.value)}
                 className="parking-form-input"
               >
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
+                  <option key={num} value={num}>{num}</option>
                 ))}
               </select>
             </div>
 
             {/* Promo code */}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className="parking-form-field">
               <label className="parking-form-label">
-                <i
-                  className="fa-solid fa-tag me-1"
-                ></i>
-                Promo code
+                <i className="fa-solid fa-tag me-1"></i>Promo code
               </label>
               <input
                 type="text"
                 placeholder="Enter code"
                 value={promoCode}
-                onChange={(e) =>
-                  onPromoCodeChange(e.target.value.toUpperCase())
-                }
+                onChange={(e) => onPromoCodeChange(e.target.value.toUpperCase())}
                 className="parking-form-input"
               />
-              {promoError && (
-                <small className="parking-form-error">
-                  {promoError}
-                </small>
-              )}
+              {promoError && <small className="parking-form-error">{promoError}</small>}
               {promoData && (
                 <small className="parking-form-success">
-                  ✓ {promoData.discount_value}
-                  {promoData.discount_type === "percentage" ? "%" : "£"} off
-                  applied
+                  ✓ {promoData.discount_value}{promoData.discount_type === "percentage" ? "%" : "£"} off applied
                 </small>
               )}
             </div>
 
             {/* Submit */}
-            <div className="col-12 col-lg-auto">
+            <div className="parking-form-field parking-form-field--submit">
               <button
                 type="submit"
                 className="bk-search-button parking-submit-btn"
                 disabled={searching}
               >
                 {searching ? (
-                  <>
-                    <i className="fa-solid fa-spinner fa-spin"></i> Searching…
-                  </>
+                  <><i className="fa-solid fa-spinner fa-spin"></i> Searching…</>
                 ) : (
-                  <>
-                    <i className="fa-solid fa-magnifying-glass"></i> Search
-                  </>
+                  <><i className="fa-solid fa-magnifying-glass"></i> Search</>
                 )}
               </button>
             </div>

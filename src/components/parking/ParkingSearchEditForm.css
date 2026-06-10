@@ -4,8 +4,31 @@
   background: var(--tg-common-white);
   border-radius: 14px;
   border: 1px solid var(--tg-border-1);
-  padding: 24px 28px;
+  padding: 20px 24px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Single-row flex layout */
+.parking-form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.parking-form-field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Time selects — wide enough for "DROP-OFF TIME" label on one line */
+.parking-form-field--narrow {
+  flex: 0 0 145px;
+}
+
+/* Submit button cell — no label, just the button */
+.parking-form-field--submit {
+  flex: 0 0 auto;
 }
 
 .parking-form-label {
@@ -16,6 +39,7 @@
   display: block;
   text-transform: uppercase;
   letter-spacing: 0.4px;
+  white-space: nowrap;
 }
 
 .parking-form-label i {
@@ -65,8 +89,8 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  margin-top: 30px;
-  padding: 6px 12px;
+  margin-top: 0;
+  padding: 11px 24px;
   font-size: 14px;
   font-weight: 600;
   min-height: 18px !important;
@@ -117,88 +141,82 @@
 
 /* Responsive Styles */
 
-/* Mobile (480px) */
+/* Mobile — stack all fields */
 @media (max-width: 575px) {
   .parking-search-form-wrapper {
-    padding: 16px 16px;
+    padding: 16px;
   }
-
+  .parking-form-row {
+    flex-wrap: wrap;
+  }
+  .parking-form-field,
+  .parking-form-field--narrow,
+  .parking-form-field--submit {
+    flex: 1 1 100%;
+  }
   .parking-form-label {
     font-size: 11px;
     margin-bottom: 5px;
   }
-
   .parking-form-input {
     height: 42px;
     font-size: 13px;
     padding: 0 12px;
   }
-
   .parking-submit-btn {
     width: 100%;
     padding: 11px 16px;
     font-size: 13px;
-    gap: 6px;
-  }
-
-  .parking-submit-btn i {
-    font-size: 13px;
   }
 }
 
-/* Tablet (768px) */
+/* Tablet — 2 per row */
 @media (min-width: 576px) and (max-width: 991px) {
   .parking-search-form-wrapper {
     padding: 20px 24px;
   }
-
+  .parking-form-row {
+    flex-wrap: wrap;
+  }
+  .parking-form-field {
+    flex: 1 1 calc(50% - 6px);
+  }
+  .parking-form-field--narrow {
+    flex: 1 1 calc(50% - 6px);
+  }
+  .parking-form-field--submit {
+    flex: 1 1 100%;
+  }
   .parking-form-label {
     font-size: 11px;
   }
-
   .parking-form-input {
     height: 44px;
     font-size: 13px;
   }
-
   .parking-submit-btn {
     width: 100%;
     padding: 11px 20px;
     font-size: 13px;
-    gap: 7px;
-  }
-
-  .parking-submit-btn i {
-    font-size: 13px;
   }
 }
 
-/* Desktop (1024px and above) */
+/* Desktop — single row, no wrap */
 @media (min-width: 992px) {
-  .parking-search-form-wrapper {
-    padding: 24px 28px;
+  .parking-form-row {
+    flex-wrap: nowrap;
   }
-
-  .parking-form-label {
-    font-size: 12px;
+  .parking-form-field--narrow {
+    flex: 0 0 145px;
   }
-
   .parking-form-input {
-    height: 46px !important;
+    height: 44px;
     font-size: 14px;
-    padding: 0 14px !important;
   }
-
   .parking-submit-btn {
-    width: auto;
-    padding: 12px 28px;
+    padding: 11px 24px;
     font-size: 14px;
-    gap: 8px;
-    min-width: 150px;
-  }
-
-  .parking-submit-btn i {
-    font-size: 14px;
+    white-space: nowrap;
   }
 }
 

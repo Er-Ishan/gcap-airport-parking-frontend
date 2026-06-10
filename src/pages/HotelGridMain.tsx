@@ -5,7 +5,7 @@ import Wrapper from "../layouts/Wrapper"
 const HotelGridMain = () => {
    return (
       <Wrapper>
-         <SEO pageTitle={'Hotel Grid'} />
+         <SEO pageTitle={'Airport Parking'} />
          <FeatureOne />
       </Wrapper>
    )

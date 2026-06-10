@@ -15,9 +15,40 @@
     background-blend-mode: multiply;
 }
 
-/* FooterOne solid navy (overrides gradient from any old rule) */
+/* FooterOne solid navy — override the overlap-space effect */
 .tg-footer-one-bg {
     background: var(--tg-theme-primary) !important;
+
+    &.tg-footer-space {
+        margin-top: 0;
+        padding-top: 60px;
+
+        @media #{$md} { padding-top: 50px; }
+        @media #{$sm} { padding-top: 45px; }
+        @media #{$xs} { padding-top: 40px; }
+    }
+}
+
+/* Info list item flex row (icon + text) */
+.tg-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: rgba(255,255,255,0.85);
+    transition: color 0.3s;
+
+    &:hover {
+        color: var(--tg-common-white);
+    }
+}
+
+.tg-info-icon {
+    flex-shrink: 0;
+    width: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 3px;
 }
 
 .tg-footer{
@@ -38,9 +69,6 @@
         }
     }
     &-link{
-        @media #{$lg} {
-            margin-left: 30px;
-        }
         @media #{$xs} {
             margin-left: 0;
         }
@@ -59,17 +87,14 @@
         }
     }
     &-info{
-        margin-left: -33px;
-        @media #{$md,$sm,$xs} {
-            margin-left: 0;
-        }
+        margin-left: 0;
         & ul{
             & li{
                 text-transform: capitalize;
                 color: rgba(255,255,255,0.65);
-                display: inline-block;
+                display: block;
                 font-weight: 500;
-                padding: 10px 0px;
+                padding: 8px 0;
                 & a{
                     color: rgba(255,255,255,0.65);
                     &:hover{
@@ -146,6 +171,34 @@
         @media #{$sm,$xs} {
             margin-top: 0;
             padding-top: 80px;
+        }
+    }
+    /* Mobile footer layout */
+    @media #{$xs} {
+        &-widget {
+            text-align: left;
+        }
+        &-logo {
+            text-align: center;
+        }
+        &-social {
+            justify-content: center;
+        }
+        &-form {
+            max-width: 100%;
+        }
+        &-link {
+            & ul li a {
+                font-size: 15px;
+            }
+        }
+        &-info {
+            & ul li {
+                padding: 10px 0;
+            }
+        }
+        &-widget-title {
+            font-size: 18px;
         }
     }
     &-copyright{
