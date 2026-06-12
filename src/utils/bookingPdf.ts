@@ -1,69 +1,88 @@
+import html2pdf from "html2pdf.js";
 import type { RefObject } from "react";
 import type { BookingReceiptData } from "./parkingSearch";
+import { apiFetch } from "../services/parkingApi";
 
-export function formatBookingDate(date: Date | string): string {
-    if (!date) return "-";
-    const d = typeof date === "string" ? new Date(date) : date;
-    if (isNaN(d.getTime())) return String(date);
-    return d.toLocaleDateString("en-GB", {
+const API = import.meta.env.VITE_API_URL as string;
+const INTERNAL_KEY = import.meta.env.VITE_INTERNAL_API_KEY as string | undefined;
+
+const defaultPdfOptions = {
+    margin: 0.3,
+    image: { type: "jpeg" as const, quality: 1 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "in" as const, format: "a4" as const, orientation: "portrait" as const },
+};
+
+export function formatBookingDate(dateInput?: string | Date): string {
+    if (!dateInput) return "-";
+    const date = new Date(dateInput);
+    if (isNaN(date.getTime())) return String(dateInput);
+    return date.toLocaleString("en-GB", {
         day: "2-digit",
         month: "short",
         year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
     });
+}
+
+export async function generatePdfBase64(element: HTMLElement): Promise<string> {
+    const pdf = await html2pdf()
+        .set(defaultPdfOptions)
+        .from(element)
+        .outputPdf("datauristring");
+
+    return pdf.split(",")[1];
 }
 
 export function downloadPdfFromElement(
     element: HTMLElement,
     filename: string,
-    _scale?: number
+    margin = 0.3
 ): void {
-    const printWindow = window.open("", "_blank", "width=960,height=720");
-    if (!printWindow) {
-        window.alert("Please allow pop-ups to download the PDF.");
-        return;
-    }
+    html2pdf()
+        .set({ ...defaultPdfOptions, margin, filename })
+        .from(element)
+        .save();
+}
 
-    printWindow.document.write(`<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>${filename.replace(".pdf", "")}</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #111; padding: 24px; }
-    img { max-width: 100%; }
-    table { border-collapse: collapse; width: 100%; }
-    td, th { padding: 8px; }
-    @media print {
-      body { padding: 0; }
-      .no-print { display: none !important; }
+export async function saveReceiptPdfToDb(
+    bookingId: number | string,
+    element: HTMLElement
+): Promise<boolean> {
+    if (!INTERNAL_KEY) return false;
+
+    try {
+        const receiptPdf = await generatePdfBase64(element);
+        const res = await apiFetch(`${API}/api/save-receipt-pdf`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-internal-api-key": INTERNAL_KEY,
+            },
+            body: JSON.stringify({
+                booking_id: bookingId,
+                receipt_pdf: receiptPdf,
+            }),
+        });
+        const data = await res.json();
+        return Boolean(data.success);
+    } catch {
+        return false;
     }
-  </style>
-</head>
-<body>
-${element.innerHTML}
-</body>
-</html>`);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-    }, 600);
 }
 
 export function scheduleReceiptSave(
     bookingData: BookingReceiptData | null,
     ref: RefObject<HTMLElement | null>
 ): () => void {
-    if (!bookingData || !ref) return () => {};
+    if (!bookingData?.booking_id) return () => undefined;
+
     const timer = setTimeout(() => {
         if (ref.current) {
-            downloadPdfFromElement(
-                ref.current,
-                `receipt_${bookingData.booking_id}.pdf`
-            );
+            void saveReceiptPdfToDb(bookingData.booking_id, ref.current);
         }
-    }, 5000);
+    }, 1000);
+
     return () => clearTimeout(timer);
 }

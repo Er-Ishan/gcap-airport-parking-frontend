@@ -1,5 +1,97 @@
 import type { ParkingProduct, PromoData } from "../utils/parkingSearch";
 
+const API = import.meta.env.VITE_API_URL as string;
+const INTERNAL_KEY = import.meta.env.VITE_INTERNAL_API_KEY as string | undefined;
+const COMPANY_DOMAIN = import.meta.env.VITE_COMPANY_DOMAIN as string | undefined;
+
+/** Injects X-Company-Domain header so the backend resolves the correct company. */
+export function apiFetch(url: string, options: RequestInit = {}): Promise<Response> {
+    const headers = new Headers(options.headers as HeadersInit | undefined);
+    if (COMPANY_DOMAIN) headers.set("X-Company-Domain", COMPANY_DOMAIN);
+    return fetch(url, { ...options, headers });
+}
+
+/** Limit parallel API calls so the backend DB pool is not overwhelmed. */
+async function mapWithConcurrency<T, R>(
+    items: T[],
+    limit: number,
+    fn: (item: T) => Promise<R>
+): Promise<R[]> {
+    if (items.length === 0) return [];
+    const results = new Array<R>(items.length);
+    let nextIndex = 0;
+
+    async function worker() {
+        while (nextIndex < items.length) {
+            const index = nextIndex++;
+            results[index] = await fn(items[index]);
+        }
+    }
+
+    const workers = Math.min(limit, items.length);
+    await Promise.all(Array.from({ length: workers }, () => worker()));
+    return results;
+}
+
+export async function fetchParkingProducts(
+    dropDate: string,
+    returnDate: string,
+    airport: string
+): Promise<ParkingProduct[]> {
+    const res = await apiFetch(`${API}/api/parking-product`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dropDate, returnDate, airport }),
+    });
+
+    const data = await res.json();
+    return Array.isArray(data.data) ? data.data : [];
+}
+
+export async function fetchProductPrice(
+    productId: number,
+    dropoffDate: string,
+    returnDate: string
+): Promise<number | null> {
+    const res = await apiFetch(`${API}/api/calculate-price`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            product_id: productId,
+            dropoff_date: dropoffDate,
+            return_date: returnDate,
+        }),
+    });
+
+    if (!res.ok) return null;
+
+    const result = await res.json();
+    if (!result.success) return null;
+
+    return Number(result.total_price);
+}
+
+export async function validatePromoCode(
+    code: string
+): Promise<{ valid: boolean; promo?: PromoData; error?: string }> {
+    if (!code.trim()) {
+        return { valid: true };
+    }
+
+    try {
+        const res = await apiFetch(`${API}/api/promocode/${encodeURIComponent(code.trim())}`);
+        const data = await res.json();
+
+        if (data.success) {
+            return { valid: true, promo: data.promo };
+        }
+
+        return { valid: false, error: "Promo code not available or expired" };
+    } catch {
+        return { valid: false, error: "Server error while checking promo" };
+    }
+}
+
 export interface CancellationCharge {
     is_enabled: number;
     price: string | number;
@@ -13,171 +105,174 @@ export interface ParkingSearchResult {
     loadError: string;
 }
 
-const MOCK_PRODUCTS: ParkingProduct[] = [
-    {
-        id: 1,
-        product_name: "Purple Parking Meet & Greet",
-        service_type: "Meet & Greet",
-        nonflex: "Refundable",
-        image_data: "/assets/img/banner/thumb.jpg",
-        point_1: "Professional valet driver at departures",
-        point_2: "CCTV monitored secure compound",
-        point_3: "Flight monitoring included",
-        point_4: "Free cancellation",
-        point_5: "Fast Track available",
-    },
-    {
-        id: 2,
-        product_name: "APH Airport Parking",
-        service_type: "Park & Ride",
-        nonflex: "Refundable",
-        image_data: "/assets/img/banner/banner-2/thumb.jpg",
-        point_1: "Free regular shuttle to terminal",
-        point_2: "CCTV monitored car park",
-        point_3: "Covered parking available",
-        point_4: "Free cancellation",
-        point_5: "Disabled access",
-    },
-    {
-        id: 3,
-        product_name: "Official On-Airport Car Park",
-        service_type: "On-Airport",
-        nonflex: "Non-Refundable",
-        image_data: "/assets/img/about/about.jpg",
-        point_1: "Walk to terminal in minutes",
-        point_2: "24/7 uniformed security",
-        point_3: "Covered multi-storey",
-        point_4: "EV charging points",
-        point_5: "Accessible bays available",
-    },
-    {
-        id: 4,
-        product_name: "NCP Long Stay Parking",
-        service_type: "Park & Walk",
-        nonflex: "Refundable",
-        image_data: "/assets/img/about/about-2.jpg",
-        point_1: "3-minute walk to terminal",
-        point_2: "CCTV monitored open-air",
-        point_3: "Online booking",
-        point_4: "Free cancellation",
-    },
-    {
-        id: 5,
-        product_name: "Maple Manor Meet & Greet",
-        service_type: "Meet & Greet",
-        nonflex: "Refundable",
-        image_data: "/assets/img/about/about-3.jpg",
-        point_1: "Driver meets you at check-in",
-        point_2: "Fully covered secure storage",
-        point_3: "24/7 security patrols",
-        point_4: "Free cancellation",
-        point_5: "Priority return at arrivals",
-    },
-    {
-        id: 6,
-        product_name: "Tourex Airport Parking",
-        service_type: "Park & Ride",
-        nonflex: "Non-Refundable",
-        image_data: "/assets/img/about/about-4.jpg",
-        point_1: "Regular shuttle service",
-        point_2: "CCTV monitored",
-        point_3: "Disabled access",
-        point_4: "Open-air parking",
-    },
-];
-
-const MOCK_PRICING: Record<number, number> = {
-    1: 64.99,
-    2: 52.00,
-    3: 110.00,
-    4: 42.00,
-    5: 71.00,
-    6: 38.50,
-};
-
-const MOCK_TERMINALS = [
-    { terminal_id: 1, terminal_name: "Terminal 1" },
-    { terminal_id: 2, terminal_name: "Terminal 2" },
-    { terminal_id: 3, terminal_name: "Terminal 3" },
-    { terminal_id: 4, terminal_name: "Terminal 4" },
-    { terminal_id: 5, terminal_name: "Terminal 5" },
-];
-
 export async function searchParkingDeals(
-    _dropDate: string,
-    _returnDate: string,
-    _airport: string,
+    dropDate: string,
+    returnDate: string,
+    airport: string,
     promoCode?: string
 ): Promise<ParkingSearchResult> {
     let promoData: PromoData | null = null;
     let promoError = "";
 
     if (promoCode?.trim()) {
-        if (promoCode.trim().toUpperCase() === "SAVE10") {
-            promoData = { discount_type: "percentage", discount_value: 10 };
-        } else if (promoCode.trim().toUpperCase() === "FLAT5") {
-            promoData = { discount_type: "fixed", discount_value: 5 };
-        } else {
-            promoError = "Promo code not available or expired";
+        const promoResult = await validatePromoCode(promoCode);
+        if (!promoResult.valid) {
+            return {
+                products: [],
+                pricing: {},
+                promoData: null,
+                promoError: promoResult.error || "Invalid promo code",
+                loadError: "",
+            };
         }
+        promoData = promoResult.promo ?? null;
     }
 
-    return {
-        products: MOCK_PRODUCTS,
-        pricing: MOCK_PRICING,
-        promoData,
-        promoError,
-        loadError: "",
-    };
-}
+    try {
+        const list = await fetchParkingProducts(dropDate, returnDate, airport);
+        const pricing: Record<number, number> = {};
 
-export async function fetchProductById(id: number): Promise<Record<string, unknown> | null> {
-    const product = MOCK_PRODUCTS.find((p) => p.id === id);
-    if (!product) return null;
-    return {
-        ...product,
-        service_provider: "GCAP Parking",
-        product_name: product.product_name,
-        service_type: product.service_type,
-        nonflex: product.nonflex,
-    };
-}
+        await mapWithConcurrency(list, 3, async (p) => {
+            const price = await fetchProductPrice(p.id, dropDate, returnDate);
+            if (price !== null) {
+                pricing[p.id] = price;
+            }
+        });
 
-export async function fetchTerminalsByProduct(_productId: number) {
-    return MOCK_TERMINALS;
-}
-
-export async function fetchBookingFees(): Promise<number> {
-    return 1.99;
+        return {
+            products: list,
+            pricing,
+            promoData,
+            promoError,
+            loadError:
+                list.length === 0
+                    ? "No parking options found for your dates and times. Try different times or dates."
+                    : "",
+        };
+    } catch {
+        return {
+            products: [],
+            pricing: {},
+            promoData,
+            promoError,
+            loadError: "Unable to load parking deals. Please check that the server is running.",
+        };
+    }
 }
 
 export async function fetchCancellationCharge(): Promise<CancellationCharge | null> {
-    return { is_enabled: 1, price: "4.99" };
+    try {
+        const res = await apiFetch(`${API}/api/cancellation/charges`);
+        const data = await res.json();
+        if (data.success && data.data?.length > 0) {
+            return data.data[0];
+        }
+    } catch {
+        /* ignore */
+    }
+    return null;
+}
+
+export async function fetchBookingFees(): Promise<number> {
+    try {
+        const res = await apiFetch(`${API}/api/booking-fees`);
+        const data = await res.json();
+        if (data.success) {
+            return Number(data.booking_fees || 0);
+        }
+    } catch {
+        /* ignore */
+    }
+    return 0;
+}
+
+export async function fetchProductById(id: number) {
+    const res = await apiFetch(`${API}/api/parking-product/${id}`);
+    const data = await res.json();
+    return data.success ? data.data : null;
+}
+
+export async function fetchTerminalsByProduct(productId: number) {
+    const res = await apiFetch(`${API}/api/data/terminals-by-product/${productId}`);
+    return res.json();
 }
 
 export async function createBooking(
-    _payload: Record<string, unknown>
+    payload: Record<string, unknown>
 ): Promise<{ success: boolean; booking_id?: number; message?: string }> {
-    const mockBookingId = Math.floor(Math.random() * 90000) + 10000;
-    return { success: true, booking_id: mockBookingId };
+    const res = await apiFetch(`${API}/api/create-booking`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+    return res.json();
+}
+
+export async function completeBookingAfterPayment(payload: {
+    booking_id: number | string;
+    transaction_id: string;
+    payment_method_id: string | null;
+}): Promise<{ success: boolean; ref_no?: string; message?: string }> {
+    const res = await apiFetch(`${API}/api/create-booking-after-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+    return res.json();
+}
+
+export async function notifyPaymentSessionExpired(
+    bookingId: number | string
+): Promise<{ success: boolean; payment_link?: string }> {
+    const fallbackLink = `/retry-payment/${bookingId}`;
+
+    if (!INTERNAL_KEY) {
+        return { success: true, payment_link: fallbackLink };
+    }
+
+    try {
+        const res = await apiFetch(`${API}/api/stripe/payment-session-expired`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-internal-api-key": INTERNAL_KEY,
+            },
+            body: JSON.stringify({ booking_id: bookingId }),
+        });
+        const data = await res.json();
+        return {
+            ...data,
+            payment_link: data.payment_link || fallbackLink,
+        };
+    } catch {
+        return { success: true, payment_link: fallbackLink };
+    }
+}
+
+export interface CompanyInfo {
+    name: string;
+    support_email_address: string | null;
+    mobile_no: string | null;
+    ref_prefix: string;
+}
+
+export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
+    try {
+        const res = await apiFetch(`${API}/api/company-info`);
+        const data = await res.json();
+        if (data.success) return data.company as CompanyInfo;
+    } catch {
+        /* ignore */
+    }
+    return null;
 }
 
 export function applyPromoDiscount(basePrice: number, promo: PromoData | null): number {
     if (!promo || !basePrice) return basePrice;
-    return promo.discount_type === "percentage"
-        ? basePrice - (basePrice * Number(promo.discount_value)) / 100
-        : basePrice - Number(promo.discount_value);
-}
 
-export async function validatePromoCode(
-    code: string
-): Promise<{ valid: boolean; promo?: PromoData; error?: string }> {
-    if (!code.trim()) return { valid: true };
-    if (code.trim().toUpperCase() === "SAVE10") {
-        return { valid: true, promo: { discount_type: "percentage", discount_value: 10 } };
+    if (promo.discount_type === "percentage") {
+        return basePrice - (basePrice * Number(promo.discount_value)) / 100;
     }
-    if (code.trim().toUpperCase() === "FLAT5") {
-        return { valid: true, promo: { discount_type: "fixed", discount_value: 5 } };
-    }
-    return { valid: false, error: "Promo code not available or expired" };
+
+    return basePrice - Number(promo.discount_value);
 }

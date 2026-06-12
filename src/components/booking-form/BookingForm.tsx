@@ -21,6 +21,7 @@ const BookingForm: React.FC = () => {
         basePrice,
         discountAmount = 0,
         finalPrice,
+        vehicleNo,
     } = bookingData;
 
     const [product, setProduct] = useState<Record<string, unknown> | null>(null);
@@ -46,7 +47,7 @@ const BookingForm: React.FC = () => {
         vehicle_model: "",
         vehicle_colour: "",
         vehicle_registration: "",
-        passengers: "1",
+        vehicle_no: vehicleNo && vehicleNo !== "0" ? vehicleNo : "1",
         terms_accepted: false,
     });
 
@@ -257,8 +258,8 @@ const BookingForm: React.FC = () => {
                                     ))}
                                     <div className="col-md-3">
                                         <FormLabel>Passengers</FormLabel>
-                                        <select name="passengers" className="form-select" onChange={handleInput}>
-                                            {["1", "2", "3", "4", "5"].map((n) => <option key={n}>{n}</option>)}
+                                        <select name="vehicle_no" value={formData.vehicle_no} className="form-select" onChange={handleInput}>
+                                            {["1","2","3","4","5","6","7","8","9","10"].map((n) => <option key={n} value={n}>{n}</option>)}
                                         </select>
                                     </div>
                                 </div>

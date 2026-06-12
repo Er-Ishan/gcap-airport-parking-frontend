@@ -108,6 +108,7 @@
 .parking-submit-btn:hover:not(:disabled) {
   background: var(--tg-theme-primary);
   border-color: var(--tg-theme-primary);
+  color: var(--tg-common-white);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(9, 43, 81, 0.25);
 }

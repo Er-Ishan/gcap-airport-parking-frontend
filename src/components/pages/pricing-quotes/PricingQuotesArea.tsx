@@ -41,6 +41,7 @@ const PricingQuotesArea: React.FC = () => {
     const [promoData, setPromoData] = useState<PromoData | null>(null);
     const [promoError, setPromoError] = useState("");
     const [returnManuallySet, setReturnManuallySet] = useState(false);
+    const [vehicleNo, setVehicleNo] = useState("1");
 
     const [products, setProducts] = useState<ParkingProduct[]>([]);
     const [pricing, setPricing] = useState<Record<number, number>>({});
@@ -71,11 +72,13 @@ const PricingQuotesArea: React.FC = () => {
         const ret = getStoredDateTime("returnDate", DEFAULT_RETURN);
         const selectedAirport = localStorage.getItem("selectedAirport") || "Bristol";
         const storedPromo = localStorage.getItem("promoCode") || "";
+        const storedVehicleNo = localStorage.getItem("vehicleNo") || "1";
 
         setDropDateState(drop);
         setReturnDateState(ret);
         setAirport(selectedAirport);
         setPromoCode(storedPromo);
+        setVehicleNo(storedVehicleNo);
 
         (async () => {
             setLoading(true);
@@ -113,6 +116,7 @@ const PricingQuotesArea: React.FC = () => {
         localStorage.setItem("dropDate", dropDateState);
         localStorage.setItem("returnDate", returnDateState);
         localStorage.setItem("selectedAirport", airport);
+        localStorage.setItem("vehicleNo", vehicleNo);
         promoCode.trim()
             ? localStorage.setItem("promoCode", promoCode.trim())
             : localStorage.removeItem("promoCode");
@@ -149,6 +153,7 @@ const PricingQuotesArea: React.FC = () => {
             product_overview: item.product_overview,
             product_description: item.product_description,
             dropoff_procedure: item.dropoff_procedure,
+            vehicleNo,
         };
 
         navigate("/booking-form", { state });
@@ -228,12 +233,14 @@ const PricingQuotesArea: React.FC = () => {
                     promoError={promoError}
                     promoData={promoData}
                     returnManuallySet={returnManuallySet}
+                    vehicleNo={vehicleNo}
                     searching={loading}
                     onAirportChange={setAirport}
                     onDropDateStateChange={setDropDateState}
                     onReturnDateStateChange={setReturnDateState}
                     onPromoCodeChange={setPromoCode}
                     onReturnManuallySet={setReturnManuallySet}
+                    onVehicleNoChange={setVehicleNo}
                     onSubmit={handleSearch}
                 />
             )}

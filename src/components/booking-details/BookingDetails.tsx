@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { BookingReceiptData } from "../../utils/parkingSearch";
 import {
@@ -6,6 +6,7 @@ import {
     formatBookingDate,
     scheduleReceiptSave,
 } from "../../utils/bookingPdf";
+import { fetchCompanyInfo, type CompanyInfo } from "../../services/parkingApi";
 
 const BookingDetails: React.FC = () => {
     const location = useLocation();
@@ -15,10 +16,14 @@ const BookingDetails: React.FC = () => {
     const bookingData = location.state?.bookingData as BookingReceiptData | null;
     const currentDate = formatBookingDate(new Date());
 
+    const [company, setCompany] = useState<CompanyInfo | null>(null);
+
     useEffect(() => {
         if (!bookingData) {
             navigate("/thank-you", { replace: true });
+            return;
         }
+        fetchCompanyInfo().then(setCompany);
     }, [bookingData, navigate]);
 
     useEffect(() => {
@@ -26,6 +31,9 @@ const BookingDetails: React.FC = () => {
     }, [bookingData]);
 
     if (!bookingData) return null;
+
+    const companyName = company?.name ?? "GCAP Airport Parking";
+    const refPrefix = company?.ref_prefix ?? "GCAP";
 
     const handleDownload = () => {
         if (detailsRef.current) {
@@ -47,13 +55,13 @@ const BookingDetails: React.FC = () => {
                 {/* Header */}
                 <div className="bk-details-header">
                     <div className="bk-details-logo">
-                        <img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" />
-                        <p>GCAP Airport Parking</p>
+                        <img src="/assets/img/logo/logo-green.png" alt={companyName} />
+                        <p>{companyName}</p>
                     </div>
                     <div className="bk-details-ref">
                         <h3>BOOKING DETAILS</h3>
                         <p>Date: {currentDate}</p>
-                        <p>Ref: GCAP-{ref}</p>
+                        <p>Ref: {refPrefix}-{ref}</p>
                     </div>
                 </div>
 
@@ -101,7 +109,7 @@ const BookingDetails: React.FC = () => {
                                 <td>{bookingData.vehicle_make || "—"}</td>
                                 <td>{bookingData.vehicle_model || "—"}</td>
                                 <td>{bookingData.vehicle_colour || "—"}</td>
-                                <td>{bookingData.passengers || "—"}</td>
+                                <td>{bookingData.vehicle_no || "—"}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -188,7 +196,7 @@ const BookingDetails: React.FC = () => {
                 </div>
 
                 <p className="bk-details-footer-note">
-                    Thank you for booking with GCAP Airport Parking. Please keep this document for your records.
+                    Thank you for booking with {companyName}. Please keep this document for your records.
                 </p>
             </div>
 
@@ -203,7 +211,7 @@ const BookingDetails: React.FC = () => {
                     Download Booking PDF
                 </button>
                 <Link
-                    to="/booking-confirmation"
+                    to="/thank-you"
                     state={location.state}
                     className="tg-btn"
                     style={{ background: "var(--tg-theme-primary)", color: "#fff", textDecoration: "none" }}

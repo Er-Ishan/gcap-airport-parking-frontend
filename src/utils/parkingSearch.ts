@@ -122,6 +122,7 @@ export interface BookingLocationState {
     product_overview?: string;
     product_description?: string;
     dropoff_procedure?: string;
+    vehicleNo?: string;
 }
 
 export interface BookingReceiptData {
@@ -136,7 +137,7 @@ export interface BookingReceiptData {
     vehicle_model?: string;
     vehicle_colour?: string;
     vehicle_registration?: string;
-    passengers?: string | number;
+    vehicle_no?: string | number;
     depart_flight?: string;
     depart_terminal?: string;
     return_flight?: string;

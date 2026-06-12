@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { BookingReceiptData } from "../../utils/parkingSearch";
 import {
@@ -6,6 +6,11 @@ import {
     formatBookingDate,
     scheduleReceiptSave,
 } from "../../utils/bookingPdf";
+import {
+    fetchCompanyInfo,
+    fetchCancellationCharge,
+    type CompanyInfo,
+} from "../../services/parkingApi";
 
 const Receipt: React.FC = () => {
     const location = useLocation();
@@ -16,10 +21,20 @@ const Receipt: React.FC = () => {
     const addons = bookingData?.addons ?? {};
     const currentDate = formatBookingDate(new Date());
 
+    const [company, setCompany] = useState<CompanyInfo | null>(null);
+    const [cancellationPrice, setCancellationPrice] = useState<string>("0.00");
+
     useEffect(() => {
         if (!bookingData) {
             navigate("/thank-you", { replace: true });
+            return;
         }
+        fetchCompanyInfo().then(setCompany);
+        fetchCancellationCharge().then((charge) => {
+            if (charge?.is_enabled && charge.price) {
+                setCancellationPrice(Number(charge.price).toFixed(2));
+            }
+        });
     }, [bookingData, navigate]);
 
     useEffect(() => {
@@ -27,6 +42,9 @@ const Receipt: React.FC = () => {
     }, [bookingData]);
 
     if (!bookingData) return null;
+
+    const companyName = company?.name ?? "GCAP Airport Parking";
+    const supportEmail = company?.support_email_address ?? "support@gcapairportparking.co.uk";
 
     const handleDownload = () => {
         if (receiptRef.current) {
@@ -48,10 +66,10 @@ const Receipt: React.FC = () => {
                 {/* Header row: logo + receipt ID box */}
                 <div className="bk-receipt-top">
                     <div className="bk-receipt-logo-col">
-                        <img src="/assets/img/logo/logo-green.png" alt="GCAP Airport Parking" />
+                        <img src="/assets/img/logo/logo-green.png" alt={companyName} />
                         <p>
-                            GCAP Airport Parking<br />
-                            support@gcapairportparking.co.uk
+                            {companyName}<br />
+                            {supportEmail}
                         </p>
                     </div>
 
@@ -110,7 +128,7 @@ const Receipt: React.FC = () => {
                             {addons.cancellation_cover && (
                                 <tr>
                                     <td>Cancellation Cover</td>
-                                    <td>£1.49</td>
+                                    <td>£{cancellationPrice}</td>
                                 </tr>
                             )}
                             <tr className="bk-total-row">
@@ -149,7 +167,7 @@ const Receipt: React.FC = () => {
                 </div>
 
                 <p className="bk-receipt-thank-you">
-                    Thank you for choosing GCAP Airport Parking. We look forward to seeing you!
+                    Thank you for choosing {companyName}. We look forward to seeing you!
                 </p>
             </div>
 
@@ -164,7 +182,7 @@ const Receipt: React.FC = () => {
                     Download Receipt (PDF)
                 </button>
                 <Link
-                    to="/booking-confirmation"
+                    to="/thank-you"
                     state={location.state}
                     className="tg-btn"
                     style={{ background: "var(--tg-theme-primary)", color: "#fff", textDecoration: "none" }}

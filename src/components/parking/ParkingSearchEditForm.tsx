@@ -23,12 +23,14 @@ interface Props {
   promoError: string;
   promoData: PromoData | null;
   returnManuallySet: boolean;
+  vehicleNo: string;
   searching?: boolean;
   onAirportChange: (airport: string) => void;
   onDropDateStateChange: (value: string) => void;
   onReturnDateStateChange: (value: string) => void;
   onPromoCodeChange: (code: string) => void;
   onReturnManuallySet: (value: boolean) => void;
+  onVehicleNoChange: (value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -40,19 +42,20 @@ const ParkingSearchEditForm: React.FC<Props> = ({
   promoError,
   promoData,
   returnManuallySet,
+  vehicleNo,
   searching = false,
   onAirportChange,
   onDropDateStateChange,
   onReturnDateStateChange,
   onPromoCodeChange,
   onReturnManuallySet,
+  onVehicleNoChange,
   onSubmit,
 }) => {
   const dropDatePart = dropDateState.split(" ")[0] || "";
   const dropTimePart = dropDateState.split(" ")[1] || "10:00";
   const returnDatePart = returnDateState.split(" ")[0] || "";
   const returnTimePart = returnDateState.split(" ")[1] || "10:00";
-  const [vehicleNo, setVehicleNo] = useState("0");
   const [dropPickerDate, setDropPickerDate] = useState<Date[]>(
     dropDatePart ? [new Date(dropDatePart)] : [],
   );
@@ -179,7 +182,7 @@ const ParkingSearchEditForm: React.FC<Props> = ({
               </label>
               <select
                 value={vehicleNo}
-                onChange={(e) => setVehicleNo(e.target.value)}
+                onChange={(e) => onVehicleNoChange(e.target.value)}
                 className="parking-form-input"
               >
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { completeBookingAfterPayment, notifyPaymentSessionExpired } from "../../services/parkingApi";
 
 const GCAP_GREEN = "#67a71e";
 const SESSION_SECONDS = 300;
@@ -54,8 +55,11 @@ const PaymentPage: React.FC = () => {
         if (timeLeft <= 0 && !sessionExpired && !expiryHandled.current) {
             expiryHandled.current = true;
             setSessionExpired(true);
+            if (bookingData?.bookingId) {
+                void notifyPaymentSessionExpired(bookingData.bookingId);
+            }
         }
-    }, [timeLeft, sessionExpired]);
+    }, [timeLeft, sessionExpired, bookingData]);
 
     const formatTime = (sec: number) => {
         const m = Math.floor(sec / 60);
@@ -69,12 +73,12 @@ const PaymentPage: React.FC = () => {
     };
 
     const handleExpiry = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
-        setCardExpiry(digits.length >= 3 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits);
+        const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
+        setCardExpiry(raw.length > 2 ? `${raw.slice(0, 2)}/${raw.slice(2)}` : raw);
     };
 
     const handleCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4));
+        setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 3));
     };
 
     const handlePay = async (e: React.FormEvent) => {
@@ -89,15 +93,43 @@ const PaymentPage: React.FC = () => {
         const rawCard = cardNumber.replace(/\s/g, "");
         if (!cardName.trim()) { setPayError("Please enter the cardholder name."); return; }
         if (rawCard.length !== 16) { setPayError("Please enter a valid 16-digit card number."); return; }
+
         if (cardExpiry.length !== 5) { setPayError("Please enter a valid expiry date (MM/YY)."); return; }
-        if (cardCvv.length < 3) { setPayError("Please enter a valid CVV."); return; }
+        const [mm, yy] = cardExpiry.split("/");
+        const expMonth = parseInt(mm, 10);
+        const expYear = 2000 + parseInt(yy, 10);
+        const now = new Date();
+        if (expMonth < 1 || expMonth > 12) { setPayError("Invalid expiry month — must be 01 to 12."); return; }
+        if (expYear < now.getFullYear() || (expYear === now.getFullYear() && expMonth < now.getMonth() + 1)) {
+            setPayError("Your card has expired."); return;
+        }
+
+        if (cardCvv.length !== 3) { setPayError("Please enter a valid 3-digit CVV."); return; }
+        if (!bookingData) return;
 
         setLoading(true);
-        await new Promise((r) => setTimeout(r, 1600));
+
+        const mockTransactionId = `gcap_mock_${Date.now()}`;
+        const result = await completeBookingAfterPayment({
+            booking_id: bookingData.bookingId,
+            transaction_id: mockTransactionId,
+            payment_method_id: "mock_pm_gcap",
+        });
+
         setLoading(false);
 
+        if (!result.success) {
+            setPayError("Payment processed but booking update failed. Please contact support.");
+            return;
+        }
+
         navigate("/thank-you", {
-            state: { ...bookingData, status: "Active" },
+            state: {
+                ...bookingData,
+                status: "Active",
+                ref_no: result.ref_no,
+                transaction_id: mockTransactionId,
+            },
         });
     };
 
@@ -268,6 +300,7 @@ const PaymentPage: React.FC = () => {
                                                 value={cardExpiry}
                                                 onChange={handleExpiry}
                                                 placeholder="MM/YY"
+                                                maxLength={5}
                                                 style={{ ...inputStyle, fontFamily: "monospace", letterSpacing: "2px" }}
                                                 autoComplete="cc-exp"
                                                 inputMode="numeric"
@@ -280,6 +313,7 @@ const PaymentPage: React.FC = () => {
                                                 value={cardCvv}
                                                 onChange={handleCvv}
                                                 placeholder="•••"
+                                                maxLength={3}
                                                 style={{ ...inputStyle, fontFamily: "monospace", letterSpacing: "4px" }}
                                                 autoComplete="cc-csc"
                                                 inputMode="numeric"
