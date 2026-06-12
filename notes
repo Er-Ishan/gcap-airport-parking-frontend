@@ -1,8 +1,107 @@
-1	companies	Row id=25 — name GCAP Airport Parking, domain gcapairportparking.co.uk, ref_prefix GCAP, support email support@gcapairportparking.co.uk
-2	airport_data	Row id=10 — Bristol airport, IATA code BRS, ICAO code EGGD, linked to company_id=25
-3	parking_terminals	2 rows — Main Terminal (T1, id=10) and North Terminal (NT, id=11), both airport_id=10
-4	parking_products	Row id=10 (GCAP Meet & Greet, service_type = Meet & Greet) and id=11 (GCAP Park & Ride), both company_id=25
-5	parking_product_price_bands	8 rows covering June, July, August, September 2026 for both products (ids 200–207), all days set to band 'A'
-6	parking_product_price_global_bands	2 rows — Band A for product 10: starts £35 +£5/day; Band A for product 11: starts £29 +£4/day
-7	charges	2 rows for company_id=25 — booking fee £1.99, cancellation charge £4.99
-8	website_settings	1 row for company_id=25 — website name, URL, contact, active=1
+Here are all the SQL queries for GCAP:
+
+1. Column rename (run first if not done yet):
+
+
+ALTER TABLE parking_bookings
+  CHANGE COLUMN passengers vehicle_no INT(11) DEFAULT NULL;
+2. Full setup script — copy from gcap-setup.sql or paste this:
+
+
+-- 1. Company
+INSERT INTO `companies`
+  (`id`, `name`, `email`, `domain`, `address`, `mobile_no`,
+   `business_type`, `business_catrgory`, `status`, `active`,
+   `ref_prefix`, `support_email_address`, `data_from`)
+VALUES
+  (25, 'GCAP Airport Parking', 'support@gcapairportparking.co.uk',
+   'gcapairportparking.co.uk', 'Bristol, United Kingdom', '01179000000',
+   'individual', 'portal', 'active', 1,
+   'GCAP', 'support@gcapairportparking.co.uk', 'A')
+ON DUPLICATE KEY UPDATE `domain` = VALUES(`domain`), `active` = VALUES(`active`);
+
+-- 2. Airport
+INSERT INTO `airport_data`
+  (`airport_id`, `airport_name`, `iata_code`, `icao_code`,
+   `country`, `city`, `total_terminals`, `airport_type`, `website`, `company_id`)
+VALUES
+  (10, 'Bristol', 'BRS', 'EGGD', 'United Kingdom', 'Bristol', 2, 'Public',
+   'https://www.bristolairport.co.uk', 25)
+ON DUPLICATE KEY UPDATE `airport_name` = VALUES(`airport_name`);
+
+-- 3. Terminals
+INSERT INTO `parking_terminals`
+  (`terminal_id`, `airport_id`, `terminal_name`, `terminal_code`,
+   `availability`, `gate_count`, `operational_status`)
+VALUES
+  (10, 10, 'Main Terminal', 'T1', 'Open', 20, 'Operational'),
+  (11, 10, 'North Terminal', 'NT', 'Open', 10, 'Operational')
+ON DUPLICATE KEY UPDATE `operational_status` = VALUES(`operational_status`);
+
+-- 4. Products
+INSERT INTO `parking_products`
+  (`id`, `company_id`, `airport_name`, `service_provider`,
+   `product_name`, `nonflex`, `service_type`,
+   `operational_from`, `operational_to`,
+   `point_1`, `point_2`, `point_3`, `point_4`,
+   `status`, `is_active`,
+   `booking_email`, `airport_charges`,
+   `book_short_hours`, `edit_short_hours`, `cancel_short_hours`,
+   `promocodes_applicable`, `commission`)
+VALUES
+  (10, 25, 'Bristol', 'GCAP Airport Parking',
+   'GCAP Meet & Greet', 'Refundable', 'Meet & Greet',
+   '00:00:00', '23:45:00',
+   'Driver meets you at departures', 'CCTV monitored secure compound',
+   'Flight monitoring included', 'Free cancellation',
+   'Active', 1, 'support@gcapairportparking.co.uk', 0.00, 0, 0, 0, 'No', 0.00),
+  (11, 25, 'Bristol', 'GCAP Airport Parking',
+   'GCAP Park & Ride', 'Refundable', 'Park & Ride',
+   '00:00:00', '23:45:00',
+   'Free regular shuttle to terminal', 'CCTV monitored car park',
+   'Covered parking available', 'Free cancellation',
+   'Active', 1, 'support@gcapairportparking.co.uk', 0.00, 0, 0, 0, 'No', 0.00)
+ON DUPLICATE KEY UPDATE `is_active` = VALUES(`is_active`);
+
+-- 5. Price bands (June–Sep 2026, band A, both products)
+INSERT INTO `parking_product_price_bands`
+  (`id`, `company_id`, `product_id`, `year`, `month`,
+   `day_1`,`day_2`,`day_3`,`day_4`,`day_5`,`day_6`,`day_7`,`day_8`,`day_9`,`day_10`,
+   `day_11`,`day_12`,`day_13`,`day_14`,`day_15`,`day_16`,`day_17`,`day_18`,`day_19`,`day_20`,
+   `day_21`,`day_22`,`day_23`,`day_24`,`day_25`,`day_26`,`day_27`,`day_28`,`day_29`,`day_30`,`day_31`)
+VALUES
+  (200,25,10,2026,'June','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (201,25,11,2026,'June','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (202,25,10,2026,'July','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (203,25,11,2026,'July','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (204,25,10,2026,'August','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (205,25,11,2026,'August','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (206,25,10,2026,'September','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'),
+  (207,25,11,2026,'September','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A')
+ON DUPLICATE KEY UPDATE `day_1` = VALUES(`day_1`);
+
+-- 6. Global price bands
+INSERT INTO `parking_product_price_global_bands`
+  (`id`, `company_id`, `product_id`, `band_name`, `increment_value`,
+   `day_1`,`day_2`,`day_3`,`day_4`,`day_5`,`day_6`,`day_7`,`day_8`,`day_9`,`day_10`,
+   `day_11`,`day_12`,`day_13`,`day_14`,`day_15`,`day_16`,`day_17`,`day_18`,`day_19`,`day_20`,
+   `day_21`,`day_22`,`day_23`,`day_24`,`day_25`,`day_26`,`day_27`,`day_28`,`day_29`,`day_30`)
+VALUES
+  (100,25,10,'A',5.00,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180),
+  (101,25,11,'A',4.00,29,33,37,41,45,49,53,57,61,65,69,73,77,81,85,89,93,97,101,105,109,113,117,121,125,129,133,137,141,145)
+ON DUPLICATE KEY UPDATE `increment_value` = VALUES(`increment_value`);
+
+-- 7. Charges
+INSERT INTO `charges` (`company_id`, `category`, `charge_name`, `is_enabled`, `price`)
+VALUES
+  (25, 'booking',      'booking fees',        1, 1.99),
+  (25, 'cancellation', 'cancellation charge', 1, 4.99)
+ON DUPLICATE KEY UPDATE `price` = VALUES(`price`), `is_enabled` = VALUES(`is_enabled`);
+
+-- 8. Website settings
+INSERT INTO `website_settings`
+  (`company_id`, `website_name`, `website_url`, `website_email`, `website_contact`, `website_active`)
+VALUES
+  (25, 'GCAP Airport Parking', 'gcapairportparking.co.uk',
+   'support@gcapairportparking.co.uk', '01179000000', 1)
+ON DUPLICATE KEY UPDATE `website_active` = VALUES(`website_active`);
