@@ -11,7 +11,9 @@ import {
 } from "../../../utils/parkingSearch";
 import {
     applyPromoDiscount,
+    fetchAirports,
     searchParkingDeals,
+    type AirportOption,
 } from "../../../services/parkingApi";
 
 const GCAP_GREEN = "#67a71e";
@@ -33,6 +35,7 @@ const FALLBACK_IMAGE = "/assets/img/banner/thumb.jpg";
 const PricingQuotesArea: React.FC = () => {
     const navigate = useNavigate();
 
+    const [airports, setAirports] = useState<AirportOption[]>([]);
     const [showSearchForm, setShowSearchForm] = useState(false);
     const [airport, setAirport] = useState("Bristol");
     const [dropDateState, setDropDateState] = useState(DEFAULT_DROP);
@@ -63,6 +66,10 @@ const PricingQuotesArea: React.FC = () => {
         setPromoError(result.promoError);
         setLoadError(result.loadError);
         setLoading(false);
+    }, []);
+
+    useEffect(() => {
+        fetchAirports().then(setAirports);
     }, []);
 
     useEffect(() => {
@@ -226,6 +233,7 @@ const PricingQuotesArea: React.FC = () => {
             {/* ── Collapsible search form ── */}
             {showSearchForm && (
                 <ParkingSearchEditForm
+                    airports={airports}
                     selectedAirport={airport}
                     dropDateState={dropDateState}
                     returnDateState={returnDateState}

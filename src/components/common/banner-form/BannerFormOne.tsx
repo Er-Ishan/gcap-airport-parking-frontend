@@ -1,19 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Flatpickr from "react-flatpickr";
-
-interface AirportOption {
-  id: number;
-  title: string;
-}
-
-const airportOptions: AirportOption[] = [
-  { id: 1, title: "Heathrow" },
-  { id: 2, title: "Gatwick" },
-  { id: 3, title: "Manchester" },
-  { id: 4, title: "Stansted" },
-  { id: 5, title: "Liverpool" },
-];
+import { fetchAirports, type AirportOption } from "../../../services/parkingApi";
 
 const generateTimeOptions = () => {
   const times: string[] = [];
@@ -51,8 +39,16 @@ const Chevron = () => (
 
 const BannerFormOne = () => {
   const navigate = useNavigate();
+  const [airports, setAirports] = useState<AirportOption[]>([]);
   const [airportOpen, setAirportOpen] = useState(false);
-  const [selectedAirport, setSelectedAirport] = useState(airportOptions[0]);
+  const [selectedAirport, setSelectedAirport] = useState<AirportOption | null>(null);
+
+  useEffect(() => {
+    fetchAirports().then((data) => {
+      setAirports(data);
+      if (data.length > 0) setSelectedAirport(data[0]);
+    });
+  }, []);
   const [checkInDate, setCheckInDate] = useState<Date | Date[]>(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date | Date[]>(new Date());
   const [dropoffTime, setDropoffTime] = useState("09:00");
@@ -92,7 +88,7 @@ const BannerFormOne = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    localStorage.setItem("selectedAirport", selectedAirport.title);
+    localStorage.setItem("selectedAirport", selectedAirport?.airport_name ?? "");
     localStorage.setItem(
       "dropDate",
       `${toDateStr(checkInDate)} ${dropoffTime}`,
@@ -355,14 +351,14 @@ const BannerFormOne = () => {
                 fontSize: "13px",
               }}
             ></i>
-            {selectedAirport.title}
+            {selectedAirport?.airport_name ?? "Select Airport"}
             <Chevron />
           </button>
           {airportOpen && (
             <div style={dropdownStyle}>
-              {airportOptions.map((a) => (
+              {airports.map((a) => (
                 <div
-                  key={a.id}
+                  key={a.airport_id}
                   onClick={() => {
                     setSelectedAirport(a);
                     setAirportOpen(false);
@@ -386,7 +382,7 @@ const BannerFormOne = () => {
                     className="fa-regular fa-location-dot"
                     style={{ color: GCAP_GREEN }}
                   ></i>
-                  {a.title}
+                  {a.airport_name}
                 </div>
               ))}
             </div>

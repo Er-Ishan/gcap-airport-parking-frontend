@@ -5,17 +5,11 @@ import {
   addDaysToDateString,
   type PromoData,
 } from "../../utils/parkingSearch";
+import type { AirportOption } from "../../services/parkingApi";
 import "./ParkingSearchEditForm.css";
 
-const AIRPORTS = [
-  { value: "Bristol", label: "Bristol" },
-  { value: "Heathrow", label: "Heathrow" },
-  { value: "Gatwick", label: "Gatwick" },
-  { value: "Manchester", label: "Manchester" },
-  { value: "Stansted", label: "Stansted" },
-];
-
 interface Props {
+  airports: AirportOption[];
   selectedAirport: string;
   dropDateState: string;
   returnDateState: string;
@@ -35,6 +29,7 @@ interface Props {
 }
 
 const ParkingSearchEditForm: React.FC<Props> = ({
+  airports,
   selectedAirport,
   dropDateState,
   returnDateState,
@@ -108,8 +103,8 @@ const ParkingSearchEditForm: React.FC<Props> = ({
                 onChange={(e) => onAirportChange(e.target.value)}
                 className="parking-form-input"
               >
-                {AIRPORTS.map((a) => (
-                  <option key={a.value} value={a.value}>{a.label}</option>
+                {airports.map((a) => (
+                  <option key={a.airport_id} value={a.airport_name}>{a.airport_name}</option>
                 ))}
               </select>
             </div>

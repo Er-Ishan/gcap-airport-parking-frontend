@@ -210,7 +210,6 @@ const BookingForm: React.FC = () => {
                                         <FormLabel>Depart Terminal</FormLabel>
                                         <select name="depart_terminal" className="form-select" onChange={handleInput}>
                                             <option value="">Select</option>
-                                            <option value="Main Terminal">Main Terminal</option>
                                             {departTerminals.map((t) => <option key={t.terminal_id} value={t.terminal_name}>{t.terminal_name}</option>)}
                                         </select>
                                     </div>
@@ -222,7 +221,6 @@ const BookingForm: React.FC = () => {
                                         <FormLabel>Return Terminal</FormLabel>
                                         <select name="return_terminal" className="form-select" onChange={handleInput}>
                                             <option value="">Select</option>
-                                            <option value="Main Terminal">Main Terminal</option>
                                             {departTerminals.map((t) => <option key={t.terminal_id} value={t.terminal_name}>{t.terminal_name}</option>)}
                                         </select>
                                     </div>

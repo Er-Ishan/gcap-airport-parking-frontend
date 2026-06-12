@@ -256,6 +256,23 @@ export interface CompanyInfo {
     ref_prefix: string;
 }
 
+export interface AirportOption {
+    airport_id: number;
+    airport_name: string;
+    iata_code: string;
+}
+
+export async function fetchAirports(): Promise<AirportOption[]> {
+    try {
+        const res = await apiFetch(`${API}/api/data/airports`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.airports)) return data.airports;
+    } catch {
+        /* ignore */
+    }
+    return [];
+}
+
 export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
     try {
         const res = await apiFetch(`${API}/api/company-info`);
