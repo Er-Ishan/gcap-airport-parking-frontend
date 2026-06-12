@@ -1,0 +1,8 @@
+1	companies	Row id=25 — name GCAP Airport Parking, domain gcapairportparking.co.uk, ref_prefix GCAP, support email support@gcapairportparking.co.uk
+2	airport_data	Row id=10 — Bristol airport, IATA code BRS, ICAO code EGGD, linked to company_id=25
+3	parking_terminals	2 rows — Main Terminal (T1, id=10) and North Terminal (NT, id=11), both airport_id=10
+4	parking_products	Row id=10 (GCAP Meet & Greet, service_type = Meet & Greet) and id=11 (GCAP Park & Ride), both company_id=25
+5	parking_product_price_bands	8 rows covering June, July, August, September 2026 for both products (ids 200–207), all days set to band 'A'
+6	parking_product_price_global_bands	2 rows — Band A for product 10: starts £35 +£5/day; Band A for product 11: starts £29 +£4/day
+7	charges	2 rows for company_id=25 — booking fee £1.99, cancellation charge £4.99
+8	website_settings	1 row for company_id=25 — website name, URL, contact, active=1
