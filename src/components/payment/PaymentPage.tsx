@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { completeBookingAfterPayment, notifyPaymentSessionExpired } from "../../services/parkingApi";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { completeBookingAfterPayment, notifyPaymentSessionExpired, apiFetch } from "../../services/parkingApi";
 
 const GCAP_GREEN = "#67a71e";
 const SESSION_SECONDS = 300;
+const API = import.meta.env.VITE_API_URL as string;
 
 interface PaymentState {
     bookingId: number;
@@ -25,19 +27,17 @@ interface PaymentState {
 const PaymentPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const stripe = useStripe();
+    const elements = useElements();
     const expiryHandled = useRef(false);
 
     const bookingData = (location.state || null) as PaymentState | null;
 
+    const [clientSecret, setClientSecret] = useState("");
     const [timeLeft, setTimeLeft] = useState(SESSION_SECONDS);
     const [sessionExpired, setSessionExpired] = useState(false);
     const [loading, setLoading] = useState(false);
     const [payError, setPayError] = useState("");
-
-    const [cardName, setCardName] = useState("");
-    const [cardNumber, setCardNumber] = useState("");
-    const [cardExpiry, setCardExpiry] = useState("");
-    const [cardCvv, setCardCvv] = useState("");
 
     useEffect(() => {
         if (!bookingData?.bookingId) {
@@ -61,24 +61,36 @@ const PaymentPage: React.FC = () => {
         }
     }, [timeLeft, sessionExpired, bookingData]);
 
+    // Create Stripe PaymentIntent on mount so the card form is ready
+    useEffect(() => {
+        if (!bookingData?.bookingId || sessionExpired) return;
+        (async () => {
+            try {
+                const resp = await apiFetch(`${API}/api/stripe/create-payment-intent`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        amount: Math.round(Number(bookingData.total_payable) * 100),
+                        booking_id: bookingData.bookingId,
+                        payment_intent_id: null,
+                    }),
+                });
+                const data = await resp.json();
+                if (data.clientSecret) {
+                    setClientSecret(data.clientSecret);
+                } else {
+                    setPayError(data.error || "Unable to initialise payment. Please refresh.");
+                }
+            } catch {
+                setPayError("Unable to connect to payment service. Please check your connection.");
+            }
+        })();
+    }, [bookingData, sessionExpired]);
+
     const formatTime = (sec: number) => {
         const m = Math.floor(sec / 60);
         const s = sec % 60;
         return `${m}:${s < 10 ? "0" : ""}${s}`;
-    };
-
-    const handleCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const digits = e.target.value.replace(/\D/g, "").slice(0, 16);
-        setCardNumber(digits.replace(/(.{4})(?=.)/g, "$1 "));
-    };
-
-    const handleExpiry = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
-        setCardExpiry(raw.length > 2 ? `${raw.slice(0, 2)}/${raw.slice(2)}` : raw);
-    };
-
-    const handleCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 3));
     };
 
     const handlePay = async (e: React.FormEvent) => {
@@ -90,47 +102,62 @@ const PaymentPage: React.FC = () => {
             return;
         }
 
-        const rawCard = cardNumber.replace(/\s/g, "");
-        if (!cardName.trim()) { setPayError("Please enter the cardholder name."); return; }
-        if (rawCard.length !== 16) { setPayError("Please enter a valid 16-digit card number."); return; }
-
-        if (cardExpiry.length !== 5) { setPayError("Please enter a valid expiry date (MM/YY)."); return; }
-        const [mm, yy] = cardExpiry.split("/");
-        const expMonth = parseInt(mm, 10);
-        const expYear = 2000 + parseInt(yy, 10);
-        const now = new Date();
-        if (expMonth < 1 || expMonth > 12) { setPayError("Invalid expiry month — must be 01 to 12."); return; }
-        if (expYear < now.getFullYear() || (expYear === now.getFullYear() && expMonth < now.getMonth() + 1)) {
-            setPayError("Your card has expired."); return;
+        if (!stripe || !elements || !clientSecret) {
+            setPayError("Payment is not ready. Please wait or refresh.");
+            return;
         }
 
-        if (cardCvv.length !== 3) { setPayError("Please enter a valid 3-digit CVV."); return; }
         if (!bookingData) return;
 
         setLoading(true);
 
-        const mockTransactionId = `gcap_mock_${Date.now()}`;
-        const result = await completeBookingAfterPayment({
-            booking_id: bookingData.bookingId,
-            transaction_id: mockTransactionId,
-            payment_method_id: "mock_pm_gcap",
+        const cardElement = elements.getElement(CardElement);
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement!,
+                billing_details: {
+                    name: `${bookingData.first_name || ""} ${bookingData.last_name || ""}`.trim(),
+                    email: bookingData.email || "",
+                },
+            },
         });
 
-        setLoading(false);
-
-        if (!result.success) {
-            setPayError("Payment processed but booking update failed. Please contact support.");
+        if (error) {
+            setPayError(error.message || "Payment failed. Please check your card details.");
+            setLoading(false);
             return;
         }
 
-        navigate("/thank-you", {
-            state: {
-                ...bookingData,
-                status: "Active",
-                ref_no: result.ref_no,
-                transaction_id: mockTransactionId,
-            },
-        });
+        if (paymentIntent?.status === "succeeded") {
+            const paymentMethodId =
+                typeof paymentIntent.payment_method === "string"
+                    ? paymentIntent.payment_method
+                    : (paymentIntent.payment_method as { id: string } | null)?.id ?? null;
+
+            const result = await completeBookingAfterPayment({
+                booking_id: bookingData.bookingId,
+                transaction_id: paymentIntent.id,
+                payment_method_id: paymentMethodId,
+            });
+
+            setLoading(false);
+
+            if (!result.success) {
+                setPayError("Payment succeeded but booking update failed. Please contact support.");
+                return;
+            }
+
+            navigate("/thank-you", {
+                state: {
+                    ...bookingData,
+                    status: "Active",
+                    ref_no: result.ref_no,
+                    transaction_id: paymentIntent.id,
+                },
+            });
+        } else {
+            setLoading(false);
+        }
     };
 
     if (!bookingData?.bookingId) return null;
@@ -170,7 +197,6 @@ const PaymentPage: React.FC = () => {
 
             <div className="container">
 
-                {/* Session expired alert */}
                 {sessionExpired && (
                     <div style={{ maxWidth: "660px", margin: "0 auto 32px", background: "#fff3cd", border: "1px solid #ffc107", borderRadius: "14px", padding: "24px", textAlign: "center" }}>
                         <i className="fa-solid fa-hourglass-end" style={{ fontSize: "28px", color: "#d97706", marginBottom: "12px", display: "block" }}></i>
@@ -196,7 +222,7 @@ const PaymentPage: React.FC = () => {
 
                 <div className="row g-4 justify-content-center align-items-start">
 
-                    {/* ── Left: Booking Info ── */}
+                    {/* Left: Booking Info */}
                     <div className="col-lg-5">
                         <div style={{ background: "#fff", borderRadius: "20px", border: "1px solid #e8ecf0", overflow: "hidden", boxShadow: "0 2px 16px rgba(0,0,0,0.06)" }}>
                             <div style={{ background: "#f8fafb", padding: "18px 24px", borderBottom: "1px solid #e8ecf0", display: "flex", alignItems: "center", gap: "8px" }}>
@@ -235,7 +261,7 @@ const PaymentPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* ── Right: Card Payment Form ── */}
+                    {/* Right: Stripe Card Form */}
                     <div className="col-lg-5">
                         <div style={{ background: "#fff", borderRadius: "20px", border: `2px solid ${GCAP_GREEN}`, overflow: "hidden", boxShadow: "0 4px 24px rgba(103, 167, 30, 0.12)", opacity: sessionExpired ? 0.6 : 1, pointerEvents: sessionExpired ? "none" : "auto" }}>
                             <div style={{ background: `linear-gradient(135deg, ${GCAP_GREEN} 0%, #4e8515 100%)`, padding: "18px 24px", textAlign: "center" }}>
@@ -245,95 +271,58 @@ const PaymentPage: React.FC = () => {
                             </div>
 
                             <div style={{ padding: "28px 28px 24px" }}>
-                                {/* Mock card visual */}
-                                <div style={{ background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)", borderRadius: "14px", padding: "20px 22px", marginBottom: "24px", color: "#fff", position: "relative", overflow: "hidden" }}>
-                                    <div style={{ position: "absolute", top: "-20px", right: "-20px", width: "100px", height: "100px", borderRadius: "50%", background: "rgba(255,255,255,0.05)" }}></div>
-                                    <div style={{ position: "absolute", bottom: "-30px", left: "-10px", width: "120px", height: "120px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }}></div>
-                                    <div style={{ fontSize: "11px", opacity: 0.6, marginBottom: "12px", letterSpacing: "1px", textTransform: "uppercase" }}>Card Number</div>
-                                    <div style={{ fontSize: "18px", fontWeight: 700, letterSpacing: "3px", marginBottom: "16px", fontFamily: "monospace" }}>
-                                        {cardNumber || "•••• •••• •••• ••••"}
+                                {!stripe && (
+                                    <div style={{ background: "#fff3cd", border: "1px solid #ffc107", borderRadius: "8px", padding: "10px 14px", marginBottom: "16px", fontSize: "13px", color: "#856404" }}>
+                                        <i className="fa-solid fa-triangle-exclamation me-2"></i>
+                                        Payment service is loading… If this persists, please refresh the page.
                                     </div>
-                                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
-                                        <div>
-                                            <div style={{ opacity: 0.6, marginBottom: "2px" }}>CARDHOLDER</div>
-                                            <div style={{ fontWeight: 600, textTransform: "uppercase" }}>{cardName || "YOUR NAME"}</div>
-                                        </div>
-                                        <div style={{ textAlign: "right" }}>
-                                            <div style={{ opacity: 0.6, marginBottom: "2px" }}>EXPIRES</div>
-                                            <div style={{ fontWeight: 600 }}>{cardExpiry || "MM/YY"}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                )}
 
                                 <form onSubmit={handlePay}>
-                                    <div className="mb-3">
-                                        <label style={labelStyle}>Cardholder Name</label>
-                                        <input
-                                            type="text"
-                                            value={cardName}
-                                            onChange={(e) => setCardName(e.target.value)}
-                                            placeholder="John Smith"
-                                            style={inputStyle}
-                                            autoComplete="cc-name"
-                                        />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label style={labelStyle}>Card Number</label>
-                                        <div style={{ position: "relative" }}>
-                                            <input
-                                                type="text"
-                                                value={cardNumber}
-                                                onChange={handleCardNumber}
-                                                placeholder="1234 5678 9012 3456"
-                                                style={{ ...inputStyle, paddingRight: "48px", fontFamily: "monospace", letterSpacing: "2px" }}
-                                                autoComplete="cc-number"
-                                                inputMode="numeric"
-                                            />
-                                            <i className="fa-brands fa-cc-visa" style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", color: "#aaa", fontSize: "18px" }}></i>
-                                        </div>
-                                    </div>
-                                    <div className="row g-3 mb-4">
-                                        <div className="col-6">
-                                            <label style={labelStyle}>Expiry Date</label>
-                                            <input
-                                                type="text"
-                                                value={cardExpiry}
-                                                onChange={handleExpiry}
-                                                placeholder="MM/YY"
-                                                maxLength={5}
-                                                style={{ ...inputStyle, fontFamily: "monospace", letterSpacing: "2px" }}
-                                                autoComplete="cc-exp"
-                                                inputMode="numeric"
-                                            />
-                                        </div>
-                                        <div className="col-6">
-                                            <label style={labelStyle}>CVV</label>
-                                            <input
-                                                type="password"
-                                                value={cardCvv}
-                                                onChange={handleCvv}
-                                                placeholder="•••"
-                                                maxLength={3}
-                                                style={{ ...inputStyle, fontFamily: "monospace", letterSpacing: "4px" }}
-                                                autoComplete="cc-csc"
-                                                inputMode="numeric"
-                                            />
+                                    <div className="mb-4">
+                                        <label style={labelStyle}>Card Details</label>
+                                        <div style={{
+                                            border: "1.5px solid #e8ecf0",
+                                            borderRadius: "10px",
+                                            padding: "13px 14px",
+                                            background: "#fafafa",
+                                            height: "46px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                        }}>
+                                            <div style={{ width: "100%" }}>
+                                                <CardElement
+                                                    options={{
+                                                        hidePostalCode: true,
+                                                        style: {
+                                                            base: {
+                                                                fontSize: "15px",
+                                                                color: "#1a1a1a",
+                                                                fontFamily: "sans-serif",
+                                                                lineHeight: "1.5",
+                                                                "::placeholder": { color: "#aab7c4" },
+                                                            },
+                                                            invalid: { color: "#ef4444" },
+                                                        },
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
 
                                     <button
                                         type="submit"
-                                        disabled={loading || sessionExpired}
+                                        disabled={loading || sessionExpired || !clientSecret || !stripe}
                                         style={{
                                             width: "100%",
-                                            background: loading ? "#a8e0c8" : GCAP_GREEN,
+                                            background: loading || !clientSecret ? "#a8e0c8" : GCAP_GREEN,
                                             color: "#fff",
                                             border: "none",
                                             borderRadius: "12px",
                                             padding: "15px",
                                             fontWeight: 800,
                                             fontSize: "16px",
-                                            cursor: loading ? "not-allowed" : "pointer",
+                                            cursor: loading || !clientSecret ? "not-allowed" : "pointer",
                                             display: "flex",
                                             alignItems: "center",
                                             justifyContent: "center",
@@ -343,6 +332,8 @@ const PaymentPage: React.FC = () => {
                                     >
                                         {loading ? (
                                             <><i className="fa-solid fa-spinner fa-spin"></i> Processing Payment…</>
+                                        ) : !clientSecret ? (
+                                            <><i className="fa-solid fa-spinner fa-spin"></i> Loading Payment…</>
                                         ) : (
                                             <><i className="fa-solid fa-lock"></i> Pay £{bookingData.total_payable}</>
                                         )}
@@ -364,7 +355,6 @@ const PaymentPage: React.FC = () => {
                                         </span>
                                     </div>
 
-                                    {/* Timer bar */}
                                     {!sessionExpired && (
                                         <div style={{ marginTop: "14px" }}>
                                             <div style={{ background: "#f0f4f8", borderRadius: "4px", height: "4px", overflow: "hidden" }}>
@@ -400,20 +390,6 @@ const labelStyle: React.CSSProperties = {
     letterSpacing: "0.5px",
     display: "block",
     marginBottom: "6px",
-};
-
-const inputStyle: React.CSSProperties = {
-    width: "100%",
-    border: "1.5px solid #e8ecf0",
-    borderRadius: "10px",
-    padding: "11px 14px",
-    fontSize: "14px",
-    fontWeight: 500,
-    color: "#1a1a1a",
-    background: "#fafafa",
-    outline: "none",
-    boxSizing: "border-box",
-    height: "46px",
 };
 
 export default PaymentPage;
