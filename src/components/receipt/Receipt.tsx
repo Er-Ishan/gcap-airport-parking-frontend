@@ -48,6 +48,7 @@ const Receipt: React.FC = () => {
 
     const companyName = company?.name ?? "GCAP Airport Parking";
     const supportEmail = company?.support_email_address ?? "support@gcapairportparking.co.uk";
+    const refPrefix = company?.ref_prefix ?? "GCAP";
 
     const handleDownload = () => {
         if (receiptRef.current) {
@@ -86,7 +87,7 @@ const Receipt: React.FC = () => {
 
                     <div className="bk-receipt-id-box">
                         <div className="bk-receipt-id-bar">
-                            Receipt #GCAP-{ref}
+                            Receipt #{refPrefix}-{ref}
                         </div>
                         <div className="bk-receipt-id-body">
                             <p>
