@@ -42,9 +42,10 @@ const FooterTwo = () => {
                            <ul>
                               <li><Link to="/">Home</Link></li>
                               <li><Link to="/about">About Us</Link></li>
-                              <li><Link to="/pricing-quotes">Get a Quote</Link></li>
                               <li><Link to="/faq">FAQ</Link></li>
                               <li><Link to="/contact">Contact Us</Link></li>
+                              <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
+                              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
                            </ul>
                         </div>
                      </div>
@@ -93,10 +94,18 @@ const FooterTwo = () => {
                   </div>
                </div>
             </div>
-            <div className="tg-footer-copyright text-center">
-               <span>
-                  Copyright <Link to="#">©GCAP Airport Parking</Link> | All Rights Reserved
-               </span>
+            <div className="tg-footer-copyright" style={{ padding: "28px 15px", margin: "0 100px" }}>
+               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+                  <p style={{ margin: 0, color: "#ffffff" }}>
+                     Copyright <Link to="#">©GCAP Airport Parking</Link> | All Rights Reserved
+                  </p>
+                  <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, textAlign: "right", color: "#ffffff" }}>
+                     This site is developed and maintained by{" "}
+                     <a href="https://techbaba.co.uk/" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, textDecoration: "none", color: "#67a71e" }}>
+                        Tech Baba
+                     </a>
+                  </p>
+               </div>
             </div>
          </div>
       </footer>

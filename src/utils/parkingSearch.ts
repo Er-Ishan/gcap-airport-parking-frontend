@@ -76,6 +76,8 @@ export interface ParkingProduct {
     product_overview?: string;
     product_description?: string;
     dropoff_procedure?: string;
+    return_procedure?: string;
+    status?: string;
 }
 
 export interface PromoData {

@@ -28,6 +28,14 @@ interface Props {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
+const Chevron = () => (
+  <svg width="12" height="8" viewBox="0 0 14 8" fill="none" style={{ flexShrink: 0, marginLeft: "6px" }}>
+    <path d="M1.667 1L7 6.333 12.333 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const GCAP_GREEN = "#67a71e";
+
 const ParkingSearchEditForm: React.FC<Props> = ({
   airports,
   selectedAirport,
@@ -58,6 +66,9 @@ const ParkingSearchEditForm: React.FC<Props> = ({
     returnDatePart ? [new Date(returnDatePart)] : [],
   );
 
+  const [airportOpen, setAirportOpen] = useState(false);
+  const airportRef = useRef<HTMLDivElement>(null);
+
   const returnFpRef = useRef<{
     flatpickr?: { set: (opt: string, val: unknown) => void };
   } | null>(null);
@@ -67,6 +78,15 @@ const ParkingSearchEditForm: React.FC<Props> = ({
       returnFpRef.current.flatpickr.set("minDate", new Date(dropDatePart));
     }
   }, [dropDatePart]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (airportRef.current && !airportRef.current.contains(e.target as Node))
+        setAirportOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleDropDateChange = (dates: Date[]) => {
     if (!dates[0]) return;
@@ -94,19 +114,32 @@ const ParkingSearchEditForm: React.FC<Props> = ({
         <form onSubmit={onSubmit}>
           <div className="parking-form-row">
             {/* Airport */}
-            <div className="parking-form-field">
+            <div className="parking-form-field" ref={airportRef} style={{ position: "relative" }}>
               <label className="parking-form-label">
                 <i className="fa-regular fa-location-dot me-1"></i>Airport
               </label>
-              <select
-                value={selectedAirport}
-                onChange={(e) => onAirportChange(e.target.value)}
-                className="parking-form-input"
+              <button
+                type="button"
+                className="parking-form-input parking-airport-btn"
+                onClick={() => setAirportOpen((p) => !p)}
               >
-                {airports.map((a) => (
-                  <option key={a.airport_id} value={a.airport_name}>{a.airport_name}</option>
-                ))}
-              </select>
+                <span style={{ flex: 1, textAlign: "left", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{selectedAirport || "Select Airport"}</span>
+                <Chevron />
+              </button>
+              {airportOpen && (
+                <div className="parking-airport-dropdown">
+                  {airports.map((a) => (
+                    <div
+                      key={a.airport_id}
+                      className="parking-airport-option"
+                      onClick={() => { onAirportChange(a.airport_name); setAirportOpen(false); }}
+                    >
+                      <i className="fa-regular fa-location-dot" style={{ color: GCAP_GREEN }}></i>
+                      {a.airport_name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Drop-off date */}
@@ -173,7 +206,7 @@ const ParkingSearchEditForm: React.FC<Props> = ({
             {/* Vehicle No */}
             <div className="parking-form-field parking-form-field--narrow">
               <label className="parking-form-label">
-                <i className="fa-solid fa-car me-1"></i>Vehicle No
+                <i className="fa-solid fa-car me-1"></i>Vehicle
               </label>
               <select
                 value={vehicleNo}

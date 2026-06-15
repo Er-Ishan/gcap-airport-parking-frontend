@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import type { BookingReceiptData } from "../../utils/parkingSearch";
 import {
     downloadPdfFromElement,
     formatBookingDate,
     scheduleReceiptSave,
 } from "../../utils/bookingPdf";
-import { fetchCompanyInfo, type CompanyInfo } from "../../services/parkingApi";
+import { fetchCompanyInfo, sendReceiptEmail, type CompanyInfo } from "../../services/parkingApi";
 
 const BookingDetails: React.FC = () => {
     const location = useLocation();
@@ -17,6 +17,8 @@ const BookingDetails: React.FC = () => {
     const currentDate = formatBookingDate(new Date());
 
     const [company, setCompany] = useState<CompanyInfo | null>(null);
+    const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const [emailMessage, setEmailMessage] = useState("");
 
     useEffect(() => {
         if (!bookingData) {
@@ -42,6 +44,14 @@ const BookingDetails: React.FC = () => {
                 `booking_details_${bookingData.booking_id}.pdf`
             );
         }
+    };
+
+    const handleEmailBookingDetails = async () => {
+        setEmailStatus("sending");
+        setEmailMessage("");
+        const result = await sendReceiptEmail(Number(bookingData.booking_id));
+        setEmailStatus(result.ok ? "success" : "error");
+        setEmailMessage(result.message);
     };
 
     const ref = String(bookingData.booking_id).padStart(8, "0");
@@ -210,16 +220,27 @@ const BookingDetails: React.FC = () => {
                     <i className="fa-solid fa-download me-2"></i>
                     Download Booking PDF
                 </button>
-                <Link
-                    to="/thank-you"
-                    state={location.state}
+                <button
+                    type="button"
                     className="tg-btn"
-                    style={{ background: "var(--tg-theme-primary)", color: "#fff", textDecoration: "none" }}
+                    disabled={emailStatus === "sending" || emailStatus === "success"}
+                    onClick={handleEmailBookingDetails}
+                    style={{ background: "var(--tg-theme-secondary)", color: "#fff", border: "none", cursor: emailStatus === "sending" ? "wait" : "pointer", opacity: emailStatus === "success" ? 0.75 : 1 }}
                 >
-                    <i className="fa-solid fa-arrow-left me-2"></i>
-                    Back to Confirmation
-                </Link>
+                    {emailStatus === "sending" ? (
+                        <><i className="fa-solid fa-spinner fa-spin me-2"></i>Sending…</>
+                    ) : emailStatus === "success" ? (
+                        <><i className="fa-solid fa-check me-2"></i>Details Sent</>
+                    ) : (
+                        <><i className="fa-solid fa-envelope me-2"></i>Email Booking Details</>
+                    )}
+                </button>
             </div>
+            {emailMessage && (
+                <p className={`no-print text-center mt-2 ${emailStatus === "success" ? "text-success" : "text-danger"}`} style={{ fontSize: "13px" }}>
+                    {emailMessage}
+                </p>
+            )}
 
         </section>
     );

@@ -49,8 +49,12 @@ const BannerFormOne = () => {
       if (data.length > 0) setSelectedAirport(data[0]);
     });
   }, []);
-  const [checkInDate, setCheckInDate] = useState<Date | Date[]>(new Date());
-  const [checkOutDate, setCheckOutDate] = useState<Date | Date[]>(new Date());
+  const [checkInDate, setCheckInDate] = useState<Date | Date[]>(() => {
+    const d = new Date(); d.setDate(d.getDate() + 1); return d;
+  });
+  const [checkOutDate, setCheckOutDate] = useState<Date | Date[]>(() => {
+    const d = new Date(); d.setDate(d.getDate() + 8); return d;
+  });
   const [dropoffTime, setDropoffTime] = useState("09:00");
   const [dropoffOpen, setDropoffOpen] = useState(false);
   const [returnTime, setReturnTime] = useState("17:00");
@@ -161,6 +165,29 @@ const BannerFormOne = () => {
   return (
     <form onSubmit={handleSubmit}>
       <style>{`
+
+/* Flatpickr selected day highlight */
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover,
+.flatpickr-day.selected:focus {
+  background: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #fff !important;
+}
+.flatpickr-day.today {
+  border-bottom-color: transparent !important;
+  background: transparent !important;
+  color: inherit !important;
+  font-weight: 600;
+}
+.flatpickr-day.today:hover {
+  background: #e8f5d6 !important;
+  border-color: #e8f5d6 !important;
+}
+.flatpickr-day:hover {
+  background: #e8f5d6 !important;
+  border-color: #e8f5d6 !important;
+}
 
 /* Remove Flatpickr border */
 .flatpickr-input {
@@ -541,7 +568,7 @@ const BannerFormOne = () => {
           className="banner-form-field"
           style={{ ...fieldStyle, position: "relative" }}
         >
-          <span style={labelStyle}>Vehicle No:</span>
+          <span style={labelStyle}>Vehicle:</span>
 
           <button
             type="button"

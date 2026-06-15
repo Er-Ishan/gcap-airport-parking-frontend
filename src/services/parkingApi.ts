@@ -284,6 +284,25 @@ export async function fetchCompanyInfo(): Promise<CompanyInfo | null> {
     return null;
 }
 
+/** Send the stored receipt PDF to the customer's email via the backend. */
+export async function sendReceiptEmail(bookingId: number): Promise<{ ok: boolean; message: string }> {
+    try {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (INTERNAL_KEY) headers["x-internal-api-key"] = INTERNAL_KEY;
+        if (COMPANY_DOMAIN) headers["X-Company-Domain"] = COMPANY_DOMAIN;
+
+        const res = await fetch(`${API}/api/email-booking`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ booking_id: bookingId }),
+        });
+        const data = await res.json();
+        return { ok: res.ok, message: data.message ?? (res.ok ? "Email sent successfully" : "Failed to send email") };
+    } catch {
+        return { ok: false, message: "Network error — please try again." };
+    }
+}
+
 export function applyPromoDiscount(basePrice: number, promo: PromoData | null): number {
     if (!promo || !basePrice) return basePrice;
 

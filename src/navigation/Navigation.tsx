@@ -34,6 +34,7 @@ import BookingConfirmationMain from '../pages/BookingConfirmationMain';
 import PaymentMain from '../pages/PaymentMain';
 import ReceiptMain from '../pages/ReceiptMain';
 import BookingDetailsMain from '../pages/BookingDetailsMain';
+import ProductDetailsMain from '../pages/ProductDetailsMain';
 import ErrorMain from '../pages/ErrorMain';
 
 const AppNavigation = () => {
@@ -76,6 +77,7 @@ const AppNavigation = () => {
         <Route path="/payment" element={<PaymentMain />} />
         <Route path="/receipt" element={<ReceiptMain />} />
         <Route path="/booking-details" element={<BookingDetailsMain />} />
+        <Route path="/product-details/:id" element={<ProductDetailsMain />} />
         <Route path="*" element={<ErrorMain />} />
       </Routes>
     </Router>
