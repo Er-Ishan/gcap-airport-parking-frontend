@@ -94,14 +94,14 @@ const BookingConfirmation: React.FC = () => {
                 <div className="d-flex gap-3 flex-wrap justify-content-center">
                     <Link
                         to="/receipt"
-                        state={{ bookingData: { ...state, bookingData: undefined } }}
+                        state={{ bookingData: { ...state, booking_id: state.bookingId, bookingData: undefined } }}
                         className="bk-action-btn-outline"
                     >
                         <i className="fa-solid fa-receipt me-2"></i>View Receipt
                     </Link>
                     <Link
                         to="/booking-details"
-                        state={{ bookingData: { ...state, bookingData: undefined } }}
+                        state={{ bookingData: { ...state, booking_id: state.bookingId, bookingData: undefined } }}
                         className="bk-action-btn-outline"
                     >
                         <i className="fa-solid fa-file-lines me-2"></i>Booking Details

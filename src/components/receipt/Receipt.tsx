@@ -61,7 +61,7 @@ const Receipt: React.FC = () => {
     const handleEmailReceipt = async () => {
         setEmailStatus("sending");
         setEmailMessage("");
-        const result = await sendReceiptEmail(bookingData.booking_id);
+        const result = await sendReceiptEmail(Number(bookingData.booking_id));
         setEmailStatus(result.ok ? "success" : "error");
         setEmailMessage(result.message);
     };
